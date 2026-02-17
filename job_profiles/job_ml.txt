@@ -1,0 +1,21 @@
+Title: ML Engineer
+MinExperience: 0
+
+Mandatory:
+python
+machine learning
+
+machine learning 40
+deep learning 35
+artificial intelligence 35
+python 30
+nlp 30
+computer vision 30
+data science 25
+statistics 20
+clustering 20
+classification 20
+sql 15
+pandas 15
+numpy 15
+c++ 10

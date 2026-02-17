@@ -1,0 +1,47 @@
+Shubhi Gupta
+Roll No.: 2300291520182
+Bachelor of Technology
+KIET Group of Institutions, Ghaziabad
++91-8410074328
+shubhigupta775@gmail.com
+GitHub Profile
+LinkedIn Profile
+education
+Bachelor of Technology in Computer Science and Engineering (Artificial Intelligence)
+Krishna Institute of Technology
+Intermediate Schooling
+Aligarh Muslim University
+High School (10th)
+Aligarh Muslim University
+Technical Projects
+2023–2027
+CGPA: 8.66
+2021–2022
+Percentage: 93.5
+2019–2020
+Percentage: 97.8
+projects
+Internship Portal Website with ML Recommendation
+A web platform connecting students with internship opportunities, featuring ML-based recommendations.- Role-based login for students and recruiters.- Students can browse and apply to internships; recruiters can post and manage openings.- Implemented ML-based recommendation system to suggest relevant internships based on students’ skills.- Technology Used: HTML, CSS, JavaScript, Bootstrap, PHP, MySQL, Python (ML).
+A Web Clone for a Cafe/Restaurant.
+A website containing Login, Sign-Up, Book a Table (for reservations) page with showing Menu and working links.- Facilitating users’ logins to websites without having to remember their credentials.- Technology Used: HTML, CSS, Bootstrap.
+Working Calculator
+A webpage that can be used for doing simple calculations.- Can perform functions like Addition, Subtraction, Division, and Multiplication.- Technology Used: CSS, JavaScript, HTML.
+Technical Skills and Interests
+2025
+2024–2025
+2023
+Languages: C/C++, Bootstrap, HTML+CSS
+Web Dev Tools: VScode, Git, Github
+Frameworks: Bootstrap, React
+Relevent Coursework: Data Structures & Algorithms
+Areas of Interest: Web Design and Development, Data Structure and Algorithm
+Soft Skills: Problem Solving, Self-learning, Presentation, Adaptability
+Internships and Certification and Certifications
+Palo Alto Networks Certified Network Security Administrator (PCNSA)- Palo Alto Networks [2024]
+AWS Certified Cloud Practitioner- Amazon Web Service
+View Certification [2025]
+Positions of Responsibility
+Club member, Vpaksh
+KIET Dramatics Society- Winner of EPOQUE and Prastuti events (2023).- Secured 1st Prize in Skit and Nukkad competitions at IIT Jodhpur Fest.- Top 5 team in THOMSO’24 (IIT Roorkee Fest) Skit Competition.- Managed audience engagement for performances, gathering 300+ viewers.- Raised over Rs. 20,000 through prize money and event activities.
+2023–Present

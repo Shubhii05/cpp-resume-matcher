@@ -1,0 +1,82 @@
+Kiran Sharma
+ML Engineer
+
+Machine learning engineer with proven success in building successful algorithms and predictive models for different industries. Highly adept at clustering and classification, web scrapping, data analysis, and visualization. A thriving analyst with the ability to apply ML techniques and algorithm development to solve real-world industry problems.
+
+EMPLOYMENT HISTORY
+
+Nov 2017 - May 2021
+Machine Learning Engineer
+Stack Intellect, Bangalore
+project
+Used machine learning and statistical modeling techniques to develop and evaluate algorithms to improve performance, quality, data management and accuracy.
+
+Worked with Adobe’s research teams to take the state of the art in research and make great products and features.
+
+Developed, simulated, tested, and improved algorithms for predicting electrical load and generation.
+
+Designed lean proofs of concepts (POC) to answer targeted business questions. Explored and worked with a wide range of proprietary, interesting data stores. Applied existing methods or developed new methods.
+
+May 2015 - Oct 2017
+Machine Learning Engineer
+Network Corp, Bangalore
+
+Consulted with managers to determine and refine machine learning objectives.
+
+Designed machine learning systems and self-running artificial intelligence (AI) software to automate predictive models.
+
+Turned unstructured data into useful information by auto-tagging images and text-to-speech conversions.
+
+Solved complex problems with multi-layered data sets, as well as optimized existing machine learning libraries and frameworks.
+
+Developed ML algorithms to analyze huge volumes of historical data to make predictions.
+
+Certifications
+
+Certificate in Advanced Data Science
+
+COURSES
+
+Jan 2013 - Jun 2013
+Course in Python
+Coursera
+
+Sep 2013 - Feb 2014
+Course in C++
+Coursera
+
+PERSONAL INFO
+
+Phone
+8769502883
+
+Email
+kiramsharma@gmail.com
+
+LINKEDIN
+
+linkedin.com/in/kiramsharma
+
+SKILLS
+
+Data Visualization
+
+Predictive Analysis
+
+Statistical Modeling
+
+Data Mining
+
+Clustering & Classification
+
+Quantitative Analysis
+
+ML Algorithms
+
+Web Scraping
+
+LANGUAGES
+
+English
+
+Hindi

@@ -1,0 +1,20 @@
+Title: Backend Developer
+MinExperience: 0
+
+Mandatory:
+c++
+data structures
+
+
+dsa 30
+c++ 40
+data structures 30
+algorithm 30
+oop 25
+sql 20
+system design 20
+java 20
+python 15
+git 10
+linux 10
+coding problem 30

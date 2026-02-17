@@ -1,0 +1,46 @@
+AGAM TRIPATHI
+ComputerScienceandInformation Technology
++919675568490  
+ agam.2327csit1101@kiet.edu
+SUMMARY
+AT
+Iam a motivated Computer Science undergraduate with a solid foundation in c++ and backend development. I have solved over 200
+coding problems on platforms like LeetCode and CodeStudio. My passion lies in building scalable backend applications using NODEjs
+and express. I actively participate in projects and hackathons to enhance my skills and knowledge in the field
+EDUCATION
+B.Tech, Computer Science
+KIET Group Of Institutions
+Senior Secondary (XII)
+Police modern school
+Secondary (X)
+Policemodern school
+KEY ACHIEVEMENTS
+Hackathon Participation and Finalist
+Finalist inSIH2025at the institute leveland got rank 3 in
+college, and contributed as backend developer
+SKILLS
+Ghaziabad
+08/2023 - 05/2027
+ETAWAH 
+ETAWAH
+Hackathon Participation
+Participated in Innotech Hackathon contributing as Frontend
+Developer in project AgroCrop
+C++,nodejs ,express,MongoDB,C Language,Python,RESTFUL API ,HTML,CSS,JavaScript,GitHub,MySQL ,Communication ,dsa
+Leadership 
+PROJECTS
+Kolam Analyzer
+91.6
+90.8
+09/2025 - 10/2025
+Kolamanalyzer andgenerator app
+•Designed a backend for the SIH 2025 team for the culture and heritage problem
+•Developed a kolam analyzer for preserving the kolam design, counting lines and dots
+•Converted kolam design into a CAPTCHA for security using Rabbitmq and MongoDB
+Campus connect
+unified platformforstudents
+•Developeda desktopapplication for unified platform for students
+•provide notes, tech related help ,interaction with seniors,hackathon module
+TRAINING / COURSES
+Palo Alto certificate in cybersecurity
+INFOSYS Entity Relationship ER Modeling 
