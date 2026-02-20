@@ -1,17 +1,16 @@
 #include "JobMatcher.h"
 #include <algorithm>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
-// tolowercopy is a function to convert string in lower case
 string toLowerCopy(string str)
 {
     transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
 }
 
-// Fit Category
 string JobMatcher::getFitCategory(double percentage)
 {
     if (percentage >= 75)
@@ -23,48 +22,46 @@ string JobMatcher::getFitCategory(double percentage)
     return "Weak Fit";
 }
 
-// ==========================
-// Main Matching Function
-// ==========================
 MatchResult JobMatcher::evaluateCandidate(const Candidate &candidate, const Job &job)
 {
-    MatchResult result;
+    MatchResult result{};
     result.rawScore = 0;
     result.projectBonus = 0;
     result.certificationBonus = 0;
     result.educationBonus = 0;
-    result.matchedSkills.clear();
 
     const Resume &resume = candidate.getResume();
     const vector<string> &candidateSkills = resume.getSkills();
     const set<string> &mandatorySkills = job.getMandatorySkills();
+    cout << "Mandatory Skills From Job:" << endl;
+for (const auto &m : mandatorySkills)
+{
+    cout << "[" << m << "]" << endl;
+}
+
     const map<string, int> &jobSkills = job.getRequiredSkills();
 
-    cout << "\nDEBUG Candidate Skills:\n";
-    for (auto &s : candidateSkills)
-        cout << "[" << s << "]\n";
+    cout << "Detected Skills Count: " << candidateSkills.size() << endl;
+    cout << "Job Skills Count: " << jobSkills.size() << endl;
+    for (const auto &s : candidateSkills)
+{
+    cout << "Candidate Skill: [" << s << "]" << endl;
+}
 
-    cout << "\nDEBUG Mandatory Skills:\n";
-    for (auto &m : mandatorySkills)
-        cout << "[" << m << "]\n";
 
-    // -------------------------
-    // STEP 1: Mandatory Check
-    // -------------------------
+    // Mandatory Check
     for (const auto &mandatory : mandatorySkills)
     {
-        if (find(candidateSkills.begin(), candidateSkills.end(), mandatory) == candidateSkills.end())
+        if (find(candidateSkills.begin(),
+                 candidateSkills.end(),
+                 mandatory) == candidateSkills.end())
         {
-
-            result.percentage = 0;
-            result.maxScore = 0;
-            return result; // Immediate rejection
+            cout << "Candidate is missing mandatory Skills." << endl;
+            return result;
         }
     }
 
-    // -------------------------
-    // STEP 2: Weighted Skill Matching
-    // -------------------------
+    // Weighted Skill Matching
     for (const auto &skill : candidateSkills)
     {
         auto it = jobSkills.find(skill);
@@ -76,89 +73,26 @@ MatchResult JobMatcher::evaluateCandidate(const Candidate &candidate, const Job 
         }
     }
 
-    // -------------------------
-    // STEP 3: Project Bonus
-    // -------------------------
-   
+// Calculate max score
+for (const auto &skill : jobSkills)
+    result.maxScore += skill.second;
 
-            // STEP 3: Project Bonus
-            if (!resume.getProjects().empty() && !result.matchedSkills.empty())
-            {
-                result.projectBonus = 5;
-                result.rawScore += 5;
-            }
-        
-    
+result.maxScore += 30; // bonus allowance
 
-   // STEP 4: Certification Bonus
-bool certMatched = false;
-
-for (const auto &cert : resume.getCertifications())
+if (result.maxScore > 0)
 {
-    string lowerCert = toLowerCopy(cert);
+    double rawPercent =
+        (double(result.rawScore) / result.maxScore) * 100.0;
 
-    for (const auto &required : jobSkills)
-    {
-        if (lowerCert.find(required.first) != string::npos)
-        {
-            certMatched = true;
-            break;
-        }
-    }
-
-    if (certMatched)
-        break;
+    result.percentage = round(rawPercent * 100.0) / 100.0;
+}
+else
+{
+    result.percentage = 0;
 }
 
-if (certMatched)
-{
-    result.certificationBonus = 10;
-    result.rawScore += 10;
-}
+result.fitCategory = getFitCategory(result.percentage);
 
+return result;
 
-    // -------------------------
-    // STEP 5: Education Bonus
-    // -------------------------
-    for (const auto &edu : resume.getEducation())
-    {
-
-        string lowerEdu = toLowerCopy(edu);
-
-        if (lowerEdu.find("computer") != string::npos ||
-            lowerEdu.find("engineering") != string::npos ||
-            lowerEdu.find("artificial") != string::npos)
-        {
-
-            result.educationBonus += 15;
-            result.rawScore += 15;
-            break;
-        }
-    }
-
-    // -------------------------
-    // STEP 6: Calculate Maximum Score
-    // -------------------------
-    result.maxScore = 0;
-
-    for (const auto &skill : jobSkills)
-    {
-        result.maxScore += skill.second;
-    }
-
-    // Add possible bonuses
-    result.maxScore += 15; // education
-    result.maxScore += 10; // certification
-    result.maxScore += 5;  // project
-
-    // -------------------------
-    // STEP 7: Percentage
-    // -------------------------
-    if (result.maxScore > 0)
-        result.percentage =
-            (double(result.rawScore) / result.maxScore) * 100.0;
-    else
-        result.percentage = 0;
-
-    return result;
 }

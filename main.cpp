@@ -1,130 +1,71 @@
-#include <iostream>
-#include "FileManager.h"
+#include "crow/app.h"
+#include "crow/json.h"
 #include "JobMatcher.h"
-#include "Candidate.h"
-#include "Job.h"
+#include "FileManager.h"
+#include <iomanip>
+#include <sstream>
+#include <cmath>
 
-using namespace std;
 
 int main()
 {
-    cout << "=========================================\n";
-    cout << "        Resume Screening Report\n";
-    cout << "=========================================\n";
+    crow::SimpleApp app;
 
-    FileManager fileManager;
+    CROW_ROUTE(app, "/match")
+.methods(crow::HTTPMethod::Post)
+([](const crow::request &req) -> crow::response
+{
+    auto body = crow::json::load(req.body);
+    if (!body)
+        return crow::response(400);
 
-    // 🔹 Load Resume
+    std::string resumeFile = body["resume"].s();
+    std::string jobFile = body["job"].s();
+
     Candidate candidate =
-        fileManager.parseUnstructuredResume("resumes/my_resume.txt");
+        FileManager::parseUnstructuredResume(resumeFile);
 
-    // 🔹 Load Job
-    Job job = fileManager.loadJobFromFile("job_profiles/job_ml.txt");
+    Job job =
+        FileManager::loadJobFromFile(jobFile);
 
-    // 🔹 Get Resume Object
-    const Resume &resume = candidate.getResume();
+    MatchResult result =
+    JobMatcher::evaluateCandidate(candidate, job);
 
-    // 🔹 Print Candidate Info
-    cout << "Candidate Name: " << candidate.getName() << endl;
-    cout << "Email: " << candidate.getEmail() << endl;
-    cout << "Phone: " << resume.getPhoneNumber() << endl;
+const Resume &resume = candidate.getResume();
 
-    cout << "\n-----------------------------------------\n";
+crow::json::wvalue response;
 
-    // // 🔹 Display Skills
-    // cout << "\nSkills Detected:\n";
-    // for (const auto &skill : resume.getSkills())
-    // {
-    //     cout << "- " << skill << endl;
-    // }
 
-    // // 🔹 Display Projects
-    // cout << "\nProjects:\n";
-    // if (!resume.getProjects().empty())
-    // {
-    //     for (const auto &project : resume.getProjects())
-    //     {
-    //         cout << "- " << project << endl;
-    //     }
-    // }
-    // else
-    // {
-    //     cout << "No Projects Found.\n";
-    // }
 
-    // // 🔹 Display Education
-    // cout << "\nEducation:\n";
-    // if (!resume.getEducation().empty())
-    // {
-    //     for (const auto &edu : resume.getEducation())
-    //     {
-    //         cout << "- " << edu << endl;
-    //     }
-    // }
-    // else
-    // {
-    //     cout << "No Education Data Found.\n";
-    // }
+int i = 0;
+for (const auto &skill : result.matchedSkills)
+{
+    response["matchedSkills"][i++] = skill;
+}
 
-    // // 🔹 Display Certifications
-    // cout << "\nCertifications:\n";
-    // if (!resume.getCertifications().empty())
-    // {
-    //     for (const auto &cert : resume.getCertifications())
-    //     {
-    //         cout << "- " << cert << endl;
-    //     }
-    // }
-    // else
-    // {
-    //     cout << "No Certifications Found.\n";
-    // }
+response["fit"] = result.fitCategory;
 
-    cout << "\n=========================================\n";
-    cout << "            Job Matching Result\n";
-    cout << "=========================================\n\n";
+std::ostringstream percentStream;
+percentStream << std::fixed << std::setprecision(2)
+              << result.percentage;
 
-    cout << "Applied For: " << job.getJobTitle() << endl;
+response["percentage"] = percentStream.str();
 
-    // 🔹 Evaluate Candidate
-    JobMatcher matcher;
-    MatchResult result = matcher.evaluateCandidate(candidate, job);
+response["score"] = result.rawScore;
 
-    cout << "\n-----------------------------------------\n";
+response["phone"] = resume.getPhoneNumber();
 
-    // 🔹 Matched Skills
-    if (!result.matchedSkills.empty())
-    {
-        cout << "\nMatched Skills:\n";
-        for (const auto &skill : result.matchedSkills)
-        {
-            cout << "- " << skill << endl;
-        }
-    }
-    else
-    {
-        cout << "\nNo direct skill match.\n";
-    }
+response["email"] = candidate.getEmail();
 
-    // 🔹 Bonus Breakdown
-    cout << "\n--- Bonus Breakdown ---\n";
-    cout << "Project Bonus: +" << result.projectBonus << endl;
-    cout << "Certification Bonus: +" << result.certificationBonus << endl;
-    cout << "Education Bonus: +" << result.educationBonus << endl;
+response["name"] = candidate.getName();
 
-    // 🔹 Final Score
-    cout << "\n--- Final Result ---\n";
-    cout << "Final Score: "
-         << result.rawScore << " / "
-         << result.maxScore << endl;
 
-    cout << "Match Percentage: "
-         << result.percentage << "%" << endl;
+return crow::response{response.dump(4)};
+});
 
-    cout << "Fit Level: "
-         << matcher.getFitCategory(result.percentage) << endl;
 
-    cout << "\n=========================================\n";
+
+    app.port(18080).multithreaded().run();
 
     return 0;
 }

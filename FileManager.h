@@ -9,6 +9,7 @@ class FileManager {
 public:
     static Candidate parseUnstructuredResume(const std::string& filename);
     static Job loadJobFromFile(const std::string& filename);
+
 };
 
 #endif

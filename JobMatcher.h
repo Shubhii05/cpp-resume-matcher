@@ -12,6 +12,7 @@ struct MatchResult{
     int certificationBonus;
     int educationBonus;
     std::vector<std::string> matchedSkills;
+    std::string fitCategory;
 };
 
 class JobMatcher {
