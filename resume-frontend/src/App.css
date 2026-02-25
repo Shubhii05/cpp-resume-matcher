@@ -1,0 +1,140 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Animated Gradient Background */
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-45deg, #fbc2eb, #a6c1ee, #fad0c4, #ffd1ff);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  width: 380px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  animation: floatCard 4s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+@keyframes floatCard {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Upload Box */
+.upload-box {
+  display: block;
+  padding: 25px;
+  margin: 20px 0;
+  border: 2px dashed #ff6a88;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  animation: pulse 2s infinite;
+}
+
+.upload-box:hover {
+  background: #fff0f5;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0px #ff6a88; }
+  50% { box-shadow: 0 0 15px #ff6a88; }
+  100% { box-shadow: 0 0 0px #ff6a88; }
+}
+
+/* Button */
+button {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 25px;
+  background: #ff6a88;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #ff3c6f;
+  transform: scale(1.08);
+}
+
+/* Result Section */
+.result {
+  margin-top: 25px;
+  text-align: left;
+}
+
+/* Fade in animation */
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Percentage styling */
+.percentage {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff4081;
+  margin: 10px 0;
+}
+
+/* Skills */
+.skill-item {
+  opacity: 0;
+  animation: skillAppear 0.5s ease forwards;
+}
+
+.skill-item:nth-child(1) { animation-delay: 0.1s; }
+.skill-item:nth-child(2) { animation-delay: 0.2s; }
+.skill-item:nth-child(3) { animation-delay: 0.3s; }
+.skill-item:nth-child(4) { animation-delay: 0.4s; }
+.skill-item:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes skillAppear {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.subtext {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Green when uploaded */
+.upload-box.uploaded {
+  border-color: #16a34a;
+  background: #e6f9ee;
+  color: #16a34a;
+}
+
+/* Blue while dragging */
+.upload-box.dragging {
+  border-color: #2563eb;
+  background: #eef4ff;
+}

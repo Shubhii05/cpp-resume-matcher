@@ -1,0 +1,60 @@
++91 6387838564          Sonal Gupta                                                      linkedin/sonal-gupta
+
+                               Ghaziabad, Uttar Pradesh, India 201206
+
+                sonalguptaprince2005@gmail.com github/Sonalgupta2005
+
+Technical Skills and Interests
+
+   Relevant Coursework: Data Structures, OOPS, DBMS, Operating System, Computer Networks
+   Languages: C++, C, JavaScript, TypeScript, SQL
+   Technologies & Frameworks: ReactJS, NodeJS, ExpressJS, Redux Toolkit, AWS, HTML5, CSS, JavaScript, Bootstrap,
+   Tailwind CSS
+   Developer Tools: Git, Github, MongoDB, PostgreSQL, Postman, Vercel, Render
+
+Projects                                                                                 September 2024
+
+MERN Stack Marketplace ­ HealthHay | Vite, React.js, Node.js, Express.js, MongoDB |
+
+· Developed a full-featured marketplace platform for buying and selling agricultural products using MERN stack,
+  with secure RESTful APIs.
+
+· Implemented MVC architecture for modular code organization, promoting Agile development practices and
+  maintainability across client and server components.
+
+· Integrated secure user authentication and authorization using JWT and cookies to protect user data and restrict access
+  to sensitive features.
+
+· Deployed backend on Render and frontend on Vercel, delivering fast load times, responsive UX/UI, and seamless
+  cross-platform accessibility.
+
+Full-Stack Rental App ­ Wanderlust | NodeJS, ExpressJS, EJS, Bootstrap, MongoDB |        May 2024
+
+· Built a full-stack property rental application with user authentication, session management, and secure
+  CRUD functionality for property owners.
+
+· Implemented Mapbox API, interactive location-based search alongside dynamic category filters for efficient property
+  discovery.
+
+· Ensured robust client-side and server-side validation to maintain data integrity and deliver a secure, user-friendly
+  experience with a strong focus on UX/UI design.
+
+Education                                                                                  2023 ­ 2027
+                                                                                         Ghaziabad, UP
+KIET Group of Institutions, Ghaziabad
+B.Tech (Computer Science and Engineering(Artificial Intelligence))- 8.76 CGPA (Current)               2023
+                                                                                         Sonbhadra, UP
+DAV, Anpara
+Class XII - 94.4% (PCM, CBSE)
+
+Achievements
+
+  · Solved 200+ Coding Questions across different platforms
+   · Out of 19000 registrations in Odoo Hackathon 2025, got selected in top 250 teams.
+   · Played Inter-DAV Nationals in Chess held in Jalandhar, Punjab (2023)
+
+Certifications
+
+  · AWS Certified Cloud Practitoner (Nov 2025)
+   · Apna College Complete Web Development Certificate (Sep 2024)
+

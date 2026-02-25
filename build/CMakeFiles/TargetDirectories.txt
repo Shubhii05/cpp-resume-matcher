@@ -1,0 +1,3 @@
+C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build/CMakeFiles/server.dir
+C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build/CMakeFiles/ZERO_CHECK.dir
