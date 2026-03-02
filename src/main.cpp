@@ -46,7 +46,7 @@ int main()
         }
 
         std::string command =
-            "pdftotext -layout \"" + savedPath + "\" \"" + txtPath + "\"";      //converts pdf to text
+    "/usr/bin/pdftotext -layout \"" + savedPath + "\" \"" + txtPath + "\"";     //converts pdf to text
 
         if (system(command.c_str()) != 0)                                        //executes it
         {
