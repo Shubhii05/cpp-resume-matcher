@@ -137,7 +137,7 @@ function UploadPanel({ onResult, onLoading, loading }) {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const res  = await fetch("http://localhost:18080/upload", { method: "POST", body: formData });
+      const res  = await fetch("https://cpp-resume-matcher.onrender.com/upload", { method: "POST", body: formData });
       const data = await res.json();
       onResult(data);
     } catch {
