@@ -1,0 +1,18 @@
+Title: DevOps Engineer
+MinExperience: 0
+
+Mandatory:
+linux
+docker
+
+linux 40
+docker 40
+kubernetes 35
+ci/cd 35
+git 25
+aws 30
+terraform 25
+jenkins 30
+bash 25
+cloud computing 30
+monitoring 20

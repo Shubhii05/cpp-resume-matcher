@@ -1,0 +1,16 @@
+Title: Frontend Developer
+MinExperience: 0
+
+Mandatory:
+html
+javascript
+
+html 35
+css 35
+javascript 40
+react 30
+bootstrap 20
+ui 20
+web development 25
+git 10
+

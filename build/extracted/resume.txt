@@ -1,60 +1,77 @@
-+91 6387838564          Sonal Gupta                                                      linkedin/sonal-gupta
+Shubhi Gupta                                                                                          +91-8410074328
+                                                                                        shubhigupta775@gmail.com
+Roll No.: 2300291520182
+Bachelor of Technology                                                                                  GitHub Profile
+KIET Group of Institutions, Ghaziabad                                                                  LinkedIn Profile
 
-                               Ghaziabad, Uttar Pradesh, India 201206
+Education                                                                                                      2023­2027
+                                                                                                              CGPA: 8.66
+Bachelor of Technology in Computer Science and Engineering (Artificial Intelligence)
+                                                                                                               2021­2022
+Krishna Institute of Technology                                                                         Percentage: 93.5
 
-                sonalguptaprince2005@gmail.com github/Sonalgupta2005
+Intermediate Schooling                                                                                         2019­2020
+                                                                                                        Percentage: 97.8
+Aligarh Muslim University
 
-Technical Skills and Interests
+High School (10th)
 
-   Relevant Coursework: Data Structures, OOPS, DBMS, Operating System, Computer Networks
-   Languages: C++, C, JavaScript, TypeScript, SQL
-   Technologies & Frameworks: ReactJS, NodeJS, ExpressJS, Redux Toolkit, AWS, HTML5, CSS, JavaScript, Bootstrap,
-   Tailwind CSS
-   Developer Tools: Git, Github, MongoDB, PostgreSQL, Postman, Vercel, Render
+Aligarh Muslim University
 
-Projects                                                                                 September 2024
+Technical Projects
 
-MERN Stack Marketplace ­ HealthHay | Vite, React.js, Node.js, Express.js, MongoDB |
+AI-Based Resume Matcher System                                                                                  2026
 
-· Developed a full-featured marketplace platform for buying and selling agricultural products using MERN stack,
-  with secure RESTful APIs.
+A C++ based system that analyzes resumes and matches them with job profiles using skill-based scoring.
 
-· Implemented MVC architecture for modular code organization, promoting Agile development practices and
-  maintainability across client and server components.
+- Developed a Resume Matcher application to evaluate candidate resumes against job descriptions.
+- Implemented skill extraction and keyword matching using STL (map, set, vector) in C++.
+- Designed modular architecture with classes like Candidate, Resume, Job, and JobMatcher.
+- Integrated file handling system to read job configurations and resume data from text files.
+- Built using C++, OOP principles, CMake, and REST API server integration.
 
-· Integrated secure user authentication and authorization using JWT and cookies to protect user data and restrict access
-  to sensitive features.
+A Web Clone for a Cafe/Restaurant.                                                                              2024­2025
 
-· Deployed backend on Render and frontend on Vercel, delivering fast load times, responsive UX/UI, and seamless
-  cross-platform accessibility.
+A website containing Login, Sign-Up, Book a Table (for reservations) page with showing Menu and working links.
 
-Full-Stack Rental App ­ Wanderlust | NodeJS, ExpressJS, EJS, Bootstrap, MongoDB |        May 2024
+- Facilitating users' logins to websites without having to remember their credentials.
+- Technology Used: HTML, CSS, Bootstrap.
 
-· Built a full-stack property rental application with user authentication, session management, and secure
-  CRUD functionality for property owners.
+Working Calculator                                                                                              2023
 
-· Implemented Mapbox API, interactive location-based search alongside dynamic category filters for efficient property
-  discovery.
+A webpage that can be used for doing simple calculations.
 
-· Ensured robust client-side and server-side validation to maintain data integrity and deliver a secure, user-friendly
-  experience with a strong focus on UX/UI design.
+- Can perform functions like Addition, Subtraction, Division, and Multiplication.
+- Technology Used: CSS, JavaScript, HTML.
 
-Education                                                                                  2023 ­ 2027
-                                                                                         Ghaziabad, UP
-KIET Group of Institutions, Ghaziabad
-B.Tech (Computer Science and Engineering(Artificial Intelligence))- 8.76 CGPA (Current)               2023
-                                                                                         Sonbhadra, UP
-DAV, Anpara
-Class XII - 94.4% (PCM, CBSE)
+Technical Skills                                                                                        2023­Present
 
-Achievements
+ Languages: C++, C, JavaScript
+ Core Skills: Data Structures & Algorithms, OOP, STL, File Handling, REST API Basics
+ Frontend: HTML, CSS, Bootstrap, React
+ Tools: Git, GitHub, VS Code, CMake
+ Database: MySQL
+ Coursework: Data Structures, Operating Systems
+ Soft Skills: Analytical Thinking, Problem Solving, Adaptability
 
-  · Solved 200+ Coding Questions across different platforms
-   · Out of 19000 registrations in Odoo Hackathon 2025, got selected in top 250 teams.
-   · Played Inter-DAV Nationals in Chess held in Jalandhar, Punjab (2023)
+Internships and Certifications
 
-Certifications
+Palo Alto Networks Certified Network Security Administrator (PCNSA)
 
-  · AWS Certified Cloud Practitoner (Nov 2025)
-   · Apna College Complete Web Development Certificate (Sep 2024)
+- Palo Alto Networks [2024]
+
+ AWS Certified Cloud Practitioner
+ - Amazon Web Service
+ View Certification [2025]
+
+Positions of Responsibility
+
+Club member, Vpaksh
+KIET Dramatics Society
+
+   - Winner of EPOQUE and Prastuti events (2023).
+   - Secured 1st Prize in Skit and Nukkad competitions at IIT Jodhpur Fest.
+   - Top 5 team in THOMSO'24 (IIT Roorkee Fest) Skit Competition.
+   - Managed audience engagement for performances, gathering 300+ viewers.
+   - Raised over Rs. 20,000 through prize money and event activities.
 

@@ -1,0 +1,18 @@
+Title: Data Engineer
+MinExperience: 0
+
+Mandatory:
+python
+sql
+
+python 40
+sql 40
+etl 35
+data pipeline 35
+spark 30
+hadoop 30
+airflow 25
+data warehouse 30
+aws 25
+linux 20
+big data 35

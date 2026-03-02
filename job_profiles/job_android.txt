@@ -1,0 +1,18 @@
+Title: Android Developer
+MinExperience: 0
+
+Mandatory:
+java
+android
+
+java 40
+kotlin 35
+android 40
+xml 25
+firebase 25
+rest api 20
+sql 20
+git 15
+material design 20
+mvvm 25
+gradle 15

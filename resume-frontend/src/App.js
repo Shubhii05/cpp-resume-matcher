@@ -1,150 +1,208 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
-function App() {
-  const [file, setFile] = useState(null);
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [animatedPercent, setAnimatedPercent] = useState(0);
-  const [dragActive, setDragActive] = useState(false);
-
-  const handleUpload = async () => {
-    if (!file) {
-      alert("Please select a file");
-      return;
-    }
-
-    setLoading(true);
-    setResult(null);
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch("http://localhost:18080/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-      setResult(data);
-    } catch (error) {
-      alert("Unable to reach the server. Please try again.");
-    }
-
-    setLoading(false);
-  };
-
-  // Animate percentage
+function ComparisonBar({ role, score, index }) {
+  const [width, setWidth] = useState(0);
   useEffect(() => {
-    if (result && result.success) {
-      let start = 0;
-      const end = parseFloat(result.percentage);
-      const duration = 1000;
-      const increment = end / (duration / 10);
-
-      const timer = setInterval(() => {
-        start += increment;
-        if (start >= end) {
-          start = end;
-          clearInterval(timer);
-        }
-        setAnimatedPercent(start.toFixed(2));
-      }, 10);
-    }
-  }, [result]);
-
-  // Drag & Drop
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    setDragActive(true);
-  };
-
-  const handleDragLeave = () => {
-    setDragActive(false);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setDragActive(false);
-    const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile) {
-      setFile(droppedFile);
-    }
-  };
-
+    const t = setTimeout(() => setWidth(score), 150 + index * 130);
+    return () => clearTimeout(t);
+  }, [score, index]);
   return (
-    <div className="container">
-      <div className="card">
-        <h1>Resume Matcher</h1>
-
-        {/* Small content under heading
-        <p className="subtext">
-          Upload your resume and instantly see your compatibility score.
-        </p> */}
-
-        <div
-          className={`upload-box ${file ? "uploaded" : ""} ${dragActive ? "dragging" : ""}`}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onClick={() => document.getElementById("fileInput").click()}
-        >
-          <input
-            id="fileInput"
-            type="file"
-            hidden
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          {file ? file.name : "Click or Drag & Drop Resume Here"}
-        </div>
-
-        <button onClick={handleUpload}>
-          {loading ? "Analyzing..." : "Submit"}
-        </button>
-        
-          
-
-        {result && result.success && (
-          <div className="result">
-            <h3>{result.data.name}</h3>
-            <p>
-              <strong>Evaluated For:</strong>{" "}
-              {result?.data?.job_type?.toUpperCase()}
-            </p>
-            <p>
-              <strong>Email:</strong> {result.data.email}
-            </p>
-
-            <p>
-              <strong>Match:</strong> {animatedPercent}%
-            </p>
-            <p>
-              <strong>Fit:</strong> {result.data.fit_category}
-            </p>
-
-            <h4>Matched Skills:</h4>
-
-            {result.data?.matched_skills?.length > 0 ? (
-              <ul>
-                {result.data.matched_skills.map((skill, index) => (
-                  <li key={index}>{skill}</li>
-                ))}
-              </ul>
-            ) : (
-              <p style={{ color: "red", fontWeight: "bold" }}>
-                {result.data?.no_skills_message}
-              </p>
-            )}
-          </div>
-        )}
-
-        {result && !result.success && (
-          <p style={{ color: "red" }}>{result.message}</p>
-        )}
+    <div className="comparison-item">
+      <div className="comparison-meta">
+        <span className="comparison-role">{role}</span>
+        <span className="comparison-pct">{score}%</span>
+      </div>
+      <div className="bar-track">
+        <div className="bar-fill" style={{ width: `${width}%` }} />
       </div>
     </div>
   );
 }
 
-export default App;
+function BestMatchCard({ role, percent, fitCategory }) {
+  const [animPct, setAnimPct] = useState(0);
+  useEffect(() => {
+    setAnimPct(0);
+    const end = parseFloat(percent);
+    const inc = end / 100;
+    let cur = 0;
+    const t = setInterval(() => {
+      cur += inc;
+      if (cur >= end) { cur = end; clearInterval(t); }
+      setAnimPct(cur.toFixed(2));
+    }, 10);
+    return () => clearInterval(t);
+  }, [percent]);
+
+  return (
+    <div className="best-match-card fade-in">
+      <div>
+        <div className="bm-eyebrow">Best Match</div>
+        <div className="bm-role">{role}</div>
+      </div>
+      <div className="bm-bottom">
+        <div className="bm-percent">{animPct}<sup>%</sup></div>
+        <div className="fit-badge">{fitCategory}</div>
+      </div>
+    </div>
+  );
+}
+
+function ResultPanel({ result, loading }) {
+  const EmptyShell = ({ icon, title, sub }) => (
+    <div className="result-panel panel-card">
+      <div className="result-topbar">
+        <div className="topbar-dot" />
+        <span className="topbar-label">Analysis Results</span>
+        <span className="topbar-slash">/</span>
+        <span className="topbar-sub">Resume Matcher</span>
+      </div>
+      <div className="empty-state">
+        <div className="empty-illustration">{icon}</div>
+        <div className="empty-title">{title}</div>
+        <div className="empty-sub">{sub}</div>
+      </div>
+    </div>
+  );
+
+  if (loading)         return <EmptyShell icon="⏳" title="Analyzing…"          sub="Matching skills against role requirements." />;
+  if (!result)         return <EmptyShell icon="📋" title="No analysis yet"      sub="Upload your resume and click Analyze." />;
+  if (!result.success) return <EmptyShell icon="⚠️" title="Something went wrong" sub={result.message} />;
+
+  const { name, email, best_role, percentage, fit_category, comparison, matched_skills, missing_skills } = result.data;
+
+  return (
+    <div className="result-panel panel-card">
+      <div className="result-topbar">
+        <div className="topbar-dot" />
+        <span className="topbar-label">Analysis Results</span>
+        <span className="topbar-slash">/</span>
+        <span className="topbar-sub">Resume Matcher</span>
+      </div>
+      <div className="name-block">
+        <span className="display-name">{name}</span>
+        <span className="display-email">{email}</span>
+      </div>
+      <div className="top-row">
+        <BestMatchCard role={best_role} percent={percentage} fitCategory={fit_category} />
+        <div className="stat-card fade-in">
+          <div className="stat-card-label">Role Comparison</div>
+          <div className="comparison-list">
+            {Object.entries(comparison).map(([role, score], i) => (
+              <ComparisonBar key={role} role={role} score={parseFloat(score)} index={i} />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="bottom-row">
+        <div className="stat-card fade-in">
+          <div className="stat-card-label">Matched Skills</div>
+          {matched_skills?.length > 0 ? (
+            <div className="skills-wrap">
+              {matched_skills.map((s, i) => (
+                <span key={i} className="skill-tag matched" style={{ animationDelay: `${i * 0.04}s` }}>
+                  ✓ {s}
+                </span>
+              ))}
+            </div>
+          ) : <p className="no-skills">No matched skills found</p>}
+        </div>
+        <div className="stat-card fade-in">
+          <div className="stat-card-label">Skills to Acquire</div>
+          {missing_skills?.length > 0 ? (
+            <div className="skills-wrap">
+              {missing_skills.map((s, i) => (
+                <span key={i} className="skill-tag missing" style={{ animationDelay: `${i * 0.04}s` }}>
+                  + {s}
+                </span>
+              ))}
+            </div>
+          ) : <p className="no-skills" style={{ color: '#065f46' }}>No missing skills.</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UploadPanel({ onResult, onLoading, loading }) {
+  const [file, setFile]             = useState(null);
+  const [dragActive, setDragActive] = useState(false);
+  const [error, setError]           = useState(null);
+  const inputRef = useRef();
+
+  const handleUpload = async () => {
+    if (!file) { setError("Please select a file first."); return; }
+    setError(null); onLoading(true); onResult(null);
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const res  = await fetch("http://localhost:18080/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      onResult(data);
+    } catch {
+      setError("Unable to reach the server. Please try again.");
+      onResult(null);
+    }
+    onLoading(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault(); setDragActive(false);
+    const f = e.dataTransfer.files[0];
+    if (f) setFile(f);
+  };
+
+  return (
+    <div className="upload-panel panel-card">
+      <div className="brand">
+        <div className="brand-icon">✦</div>
+        <div className="brand-name">Resume <span>Matcher</span></div>
+      </div>
+      <h2 className="upload-heading">Find your <span>perfect</span> role match</h2>
+      <p className="upload-subtext">Upload your resume and instantly see how well you match top roles, what skills you have, and what to learn next.</p>
+      <div
+        className={`drop-zone ${dragActive ? "active" : ""} ${file ? "has-file" : ""}`}
+        onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+        onDragLeave={() => setDragActive(false)}
+        onDrop={handleDrop}
+        onClick={() => inputRef.current.click()}
+      >
+        <input ref={inputRef} type="file" hidden onChange={(e) => { if (e.target.files[0]) setFile(e.target.files[0]); }} />
+        <span className="drop-icon">{file ? "📄" : "☁️"}</span>
+        {file ? (
+          <div className="drop-file-info">
+            <span className="drop-filename">{file.name}</span>
+            <span className="drop-sub">Click to change file</span>
+          </div>
+        ) : (
+          <>
+            <span>Click or drag &amp; drop your resume</span>
+            <span className="drop-sub">PDF supported</span>
+          </>
+        )}
+      </div>
+      <button className="btn-analyze" onClick={handleUpload} disabled={loading}>
+        {loading ? "Analyzing…" : "Analyze Resume →"}
+      </button>
+      {error && <p className="error-msg">⚠️ {error}</p>}
+      <div className="tip-card">
+        <span className="tip-icon"></span>
+        <p className="tip-text">
+          <strong>Tip: </strong> Make sure your resume clearly lists your skills and technologies for the most accurate match.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  const [result, setResult]   = useState(null);
+  const [loading, setLoading] = useState(false);
+  return (
+    <div className="app">
+      <UploadPanel onResult={setResult} onLoading={setLoading} loading={loading} />
+      <ResultPanel result={result} loading={loading} />
+    </div>
+  );
+}

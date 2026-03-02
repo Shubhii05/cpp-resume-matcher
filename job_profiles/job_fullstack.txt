@@ -1,0 +1,17 @@
+Title: Full Stack Developer
+MinExperience: 0
+
+Mandatory:
+javascript
+react
+
+javascript 40
+react 35
+node 35
+express 30
+mongodb 30
+rest api 30
+html 25
+css 25
+sql 20
+git 15

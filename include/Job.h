@@ -5,29 +5,33 @@
 #include <map>
 #include <set>
 
-using namespace std;
-
-class Job {
+class Job
+{
 private:
     int minExperience;
-    string jobTitle;
-    set<string> mandatorySkills;
-    map<string, int> requiredSkills;       //why have we made required skills in map -> for weight
+    std::string jobTitle;
+
+    // Mandatory skills (must exist)
+    std::set<std::string> mandatorySkills;
+
+    // Required skills with weight
+    std::map<std::string, int> requiredSkills;
 
 public:
+    // Constructors
     Job();
-    Job(string title, int experience);
+    Job(const std::string& title, int experience);
 
+    // Getters
     int getMinExperience() const;
-    string getJobTitle() const;
+    const std::string& getJobTitle() const;
 
-    void addMandatorySkills(const string& skill);
-    void addRequiredSkills(const string& skill, int weight);
+    const std::set<std::string>& getMandatorySkills() const;
+    const std::map<std::string, int>& getRequiredSkills() const;
 
-    
-    set<string> getMandatorySkills() const;
-    map<string, int> getRequiredSkills() const;
-
+    // Add skills
+    void addMandatorySkills(const std::string& skill);
+    void addRequiredSkills(const std::string& skill, int weight);
 };
 
 #endif

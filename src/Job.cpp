@@ -1,38 +1,69 @@
 #include "Job.h"
+#include <algorithm>
 
 using namespace std;
 
-Job::Job() {                                    //default constructor
+// ==============================
+// Helper: Convert string to lowercase
+// ==============================
+static string toLowerCase(string str)
+{
+    transform(str.begin(), str.end(), str.begin(),
+              [](unsigned char c) { return tolower(c); });
+    return str;
+}
+
+// ==============================
+// Constructors
+// ==============================
+
+Job::Job()
+{
     minExperience = 0;
 }
 
-Job::Job(string title, int experience) {         //parameterized constructor
+Job::Job(const string& title, int experience)
+{
     jobTitle = title;
     minExperience = experience;
 }
 
-string Job::getJobTitle() const {                 //const?
-    return jobTitle;
-}
+// ==============================
+// Getters
+// ==============================
 
-int Job::getMinExperience() const {
+int Job::getMinExperience() const
+{
     return minExperience;
 }
 
-void Job::addMandatorySkills(const string& skill) {
-    mandatorySkills.insert(skill);
+const string& Job::getJobTitle() const
+{
+    return jobTitle;
 }
 
-void Job::addRequiredSkills(const string& skill, int weight) {
-    requiredSkills[skill] = weight;
-}
-
-set<string> Job::getMandatorySkills() const {
+const set<string>& Job::getMandatorySkills() const
+{
     return mandatorySkills;
 }
 
-map<string, int> Job::getRequiredSkills() const {
+const map<string, int>& Job::getRequiredSkills() const
+{
     return requiredSkills;
 }
 
+// ==============================
+// Add Skills (Lowercase Normalization)
+// ==============================
 
+void Job::addMandatorySkills(const string& skill)
+{
+    string lowerSkill = toLowerCase(skill);
+    mandatorySkills.insert(lowerSkill);
+}
+
+void Job::addRequiredSkills(const string& skill, int weight)
+{
+    string lowerSkill = toLowerCase(skill);
+    requiredSkills[lowerSkill] = weight;
+}

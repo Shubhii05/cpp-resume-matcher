@@ -4,15 +4,18 @@
 
 using namespace std;
 
-string JobMatcher::getFitCategory(double percentage)                         //checks per and give fit
+string JobMatcher::getFitCategory(double percentage) // checks per and give fit
 {
-    if (percentage >= 80) return "Excellent Fit";
-    if (percentage >= 70) return "Strong Fit";
-    if (percentage >= 30) return "Moderate Fit";
+    if (percentage >= 80)
+        return "Excellent Fit";
+    if (percentage >= 70)
+        return "Strong Fit";
+    if (percentage >= 30)
+        return "Moderate Fit";
     return "Weak Fit";
 }
 
-MatchResult JobMatcher::evaluateCandidate(                                   //struct
+MatchResult JobMatcher::evaluateCandidate( // struct
     const Candidate &candidate,
     const Job &job)
 {
@@ -26,7 +29,7 @@ MatchResult JobMatcher::evaluateCandidate(                                   //s
     const map<string, int> &jobSkills = job.getRequiredSkills();
 
     // ====================================================
-    // 1️⃣ Mandatory Skill Check (UNCHANGED)
+    // 1️ Mandatory Skill Check (UNCHANGED)
     // ====================================================
     for (const auto &mandatory : mandatorySkills)
     {
@@ -40,8 +43,30 @@ MatchResult JobMatcher::evaluateCandidate(                                   //s
         }
     }
 
+    // ==============================
+    //  Missing Skills Detection
+    // ==============================
+
+    for (const auto &jobSkill : jobSkills)
+    {
+        if (find(candidateSkills.begin(),
+                 candidateSkills.end(),
+                 jobSkill.first) == candidateSkills.end())
+        {
+            result.missingSkills.push_back(
+                {jobSkill.first, jobSkill.second});
+        }
+    }
+    sort(result.missingSkills.begin(),
+         result.missingSkills.end(),
+         [](const pair<string, int> &a,
+            const pair<string, int> &b)
+         {
+             return a.second > b.second; // descending weight
+         });
+
     // ====================================================
-    // 2️⃣ Weighted Skill Scoring (UNCHANGED)
+    // 2️ Weighted Skill Scoring (UNCHANGED)
     // ====================================================
     for (const auto &skill : candidateSkills)
     {
@@ -57,10 +82,10 @@ MatchResult JobMatcher::evaluateCandidate(                                   //s
         result.maxScore += skill.second;
 
     // ====================================================
-    // 🔥 3️⃣ Certification Bonus
+    // 3️ Certification Bonus
     // ====================================================
     int certCount = resume.getCertifications().size();
-    int certBonus = certCount * 3;   // 3 points per certification
+    int certBonus = certCount * 3; // 3 points per certification
 
     result.rawScore += certBonus;
 
@@ -68,7 +93,7 @@ MatchResult JobMatcher::evaluateCandidate(                                   //s
     result.maxScore += 15;
 
     // ====================================================
-    // 🔥 4️⃣ Education Bonus
+    // 4️ Education Bonus
     // ====================================================
     if (!resume.getEducation().empty())
         result.rawScore += 5;
@@ -76,7 +101,7 @@ MatchResult JobMatcher::evaluateCandidate(                                   //s
     result.maxScore += 5;
 
     // ====================================================
-    // 🔥 5️⃣ Project Relevance Bonus
+    // 5️ Project Relevance Bonus
     // ====================================================
     int projectBonus = 0;
 
@@ -90,7 +115,7 @@ MatchResult JobMatcher::evaluateCandidate(                                   //s
         {
             if (lowerProject.find(jobSkill.first) != string::npos)
             {
-                projectBonus += 4;   // 4 points if project mentions required skill
+                projectBonus += 4; // 4 points if project mentions required skill
                 break;
             }
         }
@@ -102,7 +127,7 @@ MatchResult JobMatcher::evaluateCandidate(                                   //s
     result.maxScore += jobSkills.size() * 4;
 
     // ====================================================
-    // 6️⃣ Final Percentage Calculation
+    // 6️ Final Percentage Calculation
     // ====================================================
     if (result.maxScore > 0)
         result.percentage = round((result.rawScore * 100.0 / result.maxScore) * 100) / 100;

@@ -169,26 +169,87 @@ Candidate FileManager::parseUnstructuredResume(const std::string &filename)
     bool inProjects = false;
     bool inCertifications = false;
 
-    map<string, vector<string>> skillOntology = {
-        {"html", {"html"}},
-        {"css", {"css"}},
-        {"javascript", {"javascript", "js"}},
-        {"bootstrap", {"bootstrap"}},
-        {"react", {"react"}},
-        {"php", {"php"}},
-        {"mysql", {"mysql"}},
-        {"machine learning", {"machine learning", "ml"}},
-        {"deep learning", {"deep learning"}},
-        {"artificial intelligence", {"artificial intelligence", "ai"}},
-        {"data science", {"data science"}},
-        {"python", {"python"}},
-        {"c++", {"c++", "cpp"}},
-        {"java", {"java"}},
-        {"sql", {"sql"}},
-        {"docker", {"docker"}},
-        {"linux", {"linux"}},
-        {"tensorflow", {"tensorflow"}},
-        {"pytorch", {"pytorch"}}};
+       map<string, vector<string>> skillOntology = {
+
+    // ================= FRONTEND =================
+    {"html", {"html"}},
+    {"css", {"css"}},
+    {"javascript", {"javascript", "js"}},
+    {"react", {"react", "reactjs"}},
+    {"angular", {"angular"}},
+    {"vue", {"vue"}},
+    {"bootstrap", {"bootstrap"}},
+    {"tailwind", {"tailwind"}},
+
+    // ================= BACKEND =================
+    {"c++", {"c++", "cpp"}},
+    {"java", {"java"}},
+    {"python", {"python", "tensorflow"}},
+    {"node", {"node", "nodejs"}},
+    {"express", {"express"}},
+    {"rest api", {"rest api", "restful"}},
+    {"oop", {"oop", "object oriented"}},
+    {"data structures", {"data structures", "dsa","data structure"}},
+    {"algorithm", {"algorithm", "algorithms"}},
+    {"system design", {"system design"}},
+
+    // ================= DATABASE =================
+    {"sql", {"sql"}},
+    {"mysql", {"mysql"}},
+    {"postgresql", {"postgresql"}},
+    {"mongodb", {"mongodb"}},
+    {"database", {"database"}},
+
+    // ================= DEVOPS =================
+    {"linux", {"linux"}},
+    {"docker", {"docker"}},
+    {"kubernetes", {"kubernetes", "k8s"}},
+    {"ci/cd", {"ci/cd", "continuous integration", "continuous deployment"}},
+    {"jenkins", {"jenkins"}},
+    {"terraform", {"terraform"}},
+    {"aws", {"aws", "amazon web services"}},
+    {"cloud computing", {"cloud computing"}},
+    {"bash", {"bash"}},
+    {"git", {"git"}},
+    {"github", {"github"}},
+
+    // ================= DATA =================
+    {"machine learning", {"machine learning", "ml"}},
+    {"deep learning", {"deep learning"}},
+    {"artificial intelligence", {"artificial intelligence", "ai"}},
+    {"data science", {"data science"}},
+    {"etl", {"etl"}},
+    {"data pipeline", {"data pipeline"}},
+    {"spark", {"spark"}},
+    {"hadoop", {"hadoop"}},
+    {"airflow", {"airflow"}},
+    {"big data", {"big data"}},
+    {"data warehouse", {"data warehouse"}},
+
+    // ================= MOBILE =================
+    {"android", {"android"}},
+    {"kotlin", {"kotlin"}},
+    {"firebase", {"firebase"}},
+    {"xml", {"xml"}},
+    {"flutter", {"flutter"}},
+    {"react native", {"react native"}},
+
+    // ================= SECURITY =================
+    {"network security", {"network security"}},
+    {"cyber security", {"cyber security", "cybersecurity"}},
+    {"cryptography", {"cryptography"}},
+    {"penetration testing", {"penetration testing", "pentesting"}},
+    {"ethical hacking", {"ethical hacking"}},
+    {"firewalls", {"firewalls"}},
+    {"wireshark", {"wireshark"}},
+    {"vulnerability assessment", {"vulnerability assessment"}},
+    {"incident response", {"incident response"}},
+
+    // ================= GENERAL =================
+    {"coding problem", {"coding problem", "competitive programming"}},
+    {"problem solving", {"problem solving"}},
+    {"api", {"api"}},
+};
 
     int lineNumber = 0;
 
@@ -319,7 +380,6 @@ Candidate FileManager::parseUnstructuredResume(const std::string &filename)
 // =====================================================
 Job FileManager::loadJobFromFile(const std::string &filename)
 {
-    cout << "Job file successfully opened!" << endl;
 
     ifstream file(filename);
 

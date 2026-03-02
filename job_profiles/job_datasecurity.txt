@@ -1,0 +1,18 @@
+Title: Cyber Security Analyst
+MinExperience: 0
+
+Mandatory:
+network security
+linux
+
+network security 40
+linux 35
+cryptography 30
+penetration testing 35
+firewalls 30
+wireshark 25
+ethical hacking 35
+vulnerability assessment 30
+cyber security 40
+python 20
+incident response 30
