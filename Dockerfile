@@ -13,8 +13,7 @@ WORKDIR /app
 COPY . .
 
 # Build the project
-RUN mkdir build && cd build && cmake .. && make
-
+RUN rm -rf build && mkdir build && cd build && cmake .. && make
 EXPOSE 18080
 
 CMD ["./build/server"]
