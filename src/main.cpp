@@ -29,7 +29,7 @@ int main()
         res.code = 200;
         res.add_header("Access-Control-Allow-Origin", "*");
         res.add_header("Access-Control-Allow-Methods", "POST, OPTIONS");
-        res.add_header("Access-Control-Allow-Headers", "Content-Type");
+        res.add_header("Access-Control-Allow-Headers", "*");
         return res;
     });
 
@@ -53,16 +53,32 @@ int main()
             fs::create_directories("extracted");
 
             std::string savedPath = "uploads/resume.pdf";
-            std::string txtPath = "extracted/resume.txt";
+            std::string txtPath   = "extracted/resume.txt";
 
+            bool fileSaved = false;
+
+            // Save first file part
             for (auto &part : msg.parts)
             {
-                std::ofstream out(savedPath, std::ios::binary);
-                out.write(part.body.c_str(), part.body.size());
-                out.close();
+                if (!part.body.empty())
+                {
+                    std::ofstream out(savedPath, std::ios::binary);
+                    out.write(part.body.c_str(), part.body.size());
+                    out.close();
+                    fileSaved = true;
+                    break;
+                }
             }
 
-            // Absolute path for production
+            if (!fileSaved)
+            {
+                crow::json::wvalue error;
+                error["success"] = false;
+                error["message"] = "Resume file not found in request";
+                return crow::response(400, error);
+            }
+
+            // Convert PDF to text
             std::string command =
                 "/usr/bin/pdftotext -layout \"" + savedPath + "\" \"" + txtPath + "\"";
 
@@ -102,7 +118,7 @@ int main()
                 if (match.percentage > bestScore)
                 {
                     bestScore = match.percentage;
-                    bestRole = job.getJobTitle();
+                    bestRole  = job.getJobTitle();
                     bestMatch = match;
                 }
             }
@@ -119,7 +135,7 @@ int main()
             response["success"] = true;
 
             crow::json::wvalue data;
-            data["name"] = candidate.getName();
+            data["name"]  = candidate.getName();
             data["email"] = candidate.getEmail();
 
             for (int i = 0; i < topLimit; ++i)
@@ -128,8 +144,8 @@ int main()
                     allResults[i].second.percentage;
             }
 
-            data["best_role"] = bestRole;
-            data["percentage"] = bestMatch.percentage;
+            data["best_role"]    = bestRole;
+            data["percentage"]   = bestMatch.percentage;
             data["fit_category"] = bestMatch.fitCategory;
 
             int i = 0;
@@ -149,7 +165,7 @@ int main()
             crow::response res(200, response);
             res.add_header("Access-Control-Allow-Origin", "*");
             res.add_header("Access-Control-Allow-Methods", "POST, OPTIONS");
-            res.add_header("Access-Control-Allow-Headers", "Content-Type");
+            res.add_header("Access-Control-Allow-Headers", "*");
 
             return res;
         }
@@ -158,7 +174,10 @@ int main()
             crow::json::wvalue error;
             error["success"] = false;
             error["message"] = e.what();
-            return crow::response(500, error);
+
+            crow::response res(500, error);
+            res.add_header("Access-Control-Allow-Origin", "*");
+            return res;
         }
     });
 

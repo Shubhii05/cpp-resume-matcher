@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
+/* ================= COMPARISON BAR ================= */
 function ComparisonBar({ role, score, index }) {
   const [width, setWidth] = useState(0);
+
   useEffect(() => {
     const t = setTimeout(() => setWidth(score), 150 + index * 130);
     return () => clearTimeout(t);
   }, [score, index]);
+
   return (
     <div className="comparison-item">
       <div className="comparison-meta">
@@ -20,18 +23,25 @@ function ComparisonBar({ role, score, index }) {
   );
 }
 
+/* ================= BEST MATCH CARD ================= */
 function BestMatchCard({ role, percent, fitCategory }) {
   const [animPct, setAnimPct] = useState(0);
+
   useEffect(() => {
     setAnimPct(0);
     const end = parseFloat(percent);
     const inc = end / 100;
     let cur = 0;
+
     const t = setInterval(() => {
       cur += inc;
-      if (cur >= end) { cur = end; clearInterval(t); }
+      if (cur >= end) {
+        cur = end;
+        clearInterval(t);
+      }
       setAnimPct(cur.toFixed(2));
     }, 10);
+
     return () => clearInterval(t);
   }, [percent]);
 
@@ -42,13 +52,17 @@ function BestMatchCard({ role, percent, fitCategory }) {
         <div className="bm-role">{role}</div>
       </div>
       <div className="bm-bottom">
-        <div className="bm-percent">{animPct}<sup>%</sup></div>
+        <div className="bm-percent">
+          {animPct}
+          <sup>%</sup>
+        </div>
         <div className="fit-badge">{fitCategory}</div>
       </div>
     </div>
   );
 }
 
+/* ================= RESULT PANEL ================= */
 function ResultPanel({ result, loading }) {
   const EmptyShell = ({ icon, title, sub }) => (
     <div className="result-panel panel-card">
@@ -66,11 +80,43 @@ function ResultPanel({ result, loading }) {
     </div>
   );
 
-  if (loading)         return <EmptyShell icon="⏳" title="Analyzing…"          sub="Matching skills against role requirements." />;
-  if (!result)         return <EmptyShell icon="📋" title="No analysis yet"      sub="Upload your resume and click Analyze." />;
-  if (!result.success) return <EmptyShell icon="⚠️" title="Something went wrong" sub={result.message} />;
+  if (loading)
+    return (
+      <EmptyShell
+        icon="⏳"
+        title="Analyzing…"
+        sub="Matching skills against role requirements."
+      />
+    );
 
-  const { name, email, best_role, percentage, fit_category, comparison, matched_skills, missing_skills } = result.data;
+  if (!result)
+    return (
+      <EmptyShell
+        icon="📋"
+        title="No analysis yet"
+        sub="Upload your resume and click Analyze."
+      />
+    );
+
+  if (!result.success)
+    return (
+      <EmptyShell
+        icon="⚠️"
+        title="Something went wrong"
+        sub={result.message}
+      />
+    );
+
+  const {
+    name,
+    email,
+    best_role,
+    percentage,
+    fit_category,
+    comparison,
+    matched_skills,
+    missing_skills,
+  } = result.data;
 
   return (
     <div className="result-panel panel-card">
@@ -80,75 +126,122 @@ function ResultPanel({ result, loading }) {
         <span className="topbar-slash">/</span>
         <span className="topbar-sub">Resume Matcher</span>
       </div>
+
       <div className="name-block">
         <span className="display-name">{name}</span>
         <span className="display-email">{email}</span>
       </div>
+
       <div className="top-row">
-        <BestMatchCard role={best_role} percent={percentage} fitCategory={fit_category} />
+        <BestMatchCard
+          role={best_role}
+          percent={percentage}
+          fitCategory={fit_category}
+        />
+
         <div className="stat-card fade-in">
           <div className="stat-card-label">Role Comparison</div>
           <div className="comparison-list">
             {Object.entries(comparison).map(([role, score], i) => (
-              <ComparisonBar key={role} role={role} score={parseFloat(score)} index={i} />
+              <ComparisonBar
+                key={role}
+                role={role}
+                score={parseFloat(score)}
+                index={i}
+              />
             ))}
           </div>
         </div>
       </div>
+
       <div className="bottom-row">
         <div className="stat-card fade-in">
           <div className="stat-card-label">Matched Skills</div>
           {matched_skills?.length > 0 ? (
             <div className="skills-wrap">
               {matched_skills.map((s, i) => (
-                <span key={i} className="skill-tag matched" style={{ animationDelay: `${i * 0.04}s` }}>
+                <span
+                  key={i}
+                  className="skill-tag matched"
+                  style={{ animationDelay: `${i * 0.04}s` }}
+                >
                   ✓ {s}
                 </span>
               ))}
             </div>
-          ) : <p className="no-skills">No matched skills found</p>}
+          ) : (
+            <p className="no-skills">No matched skills found</p>
+          )}
         </div>
+
         <div className="stat-card fade-in">
           <div className="stat-card-label">Skills to Acquire</div>
           {missing_skills?.length > 0 ? (
             <div className="skills-wrap">
               {missing_skills.map((s, i) => (
-                <span key={i} className="skill-tag missing" style={{ animationDelay: `${i * 0.04}s` }}>
+                <span
+                  key={i}
+                  className="skill-tag missing"
+                  style={{ animationDelay: `${i * 0.04}s` }}
+                >
                   + {s}
                 </span>
               ))}
             </div>
-          ) : <p className="no-skills" style={{ color: '#065f46' }}>No missing skills.</p>}
+          ) : (
+            <p className="no-skills" style={{ color: "#065f46" }}>
+              No missing skills.
+            </p>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
+/* ================= UPLOAD PANEL ================= */
 function UploadPanel({ onResult, onLoading, loading }) {
-  const [file, setFile]             = useState(null);
+  const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
-  const [error, setError]           = useState(null);
+  const [error, setError] = useState(null);
   const inputRef = useRef();
 
   const handleUpload = async () => {
-    if (!file) { setError("Please select a file first."); return; }
-    setError(null); onLoading(true); onResult(null);
+    if (!file) {
+      setError("Please select a file first.");
+      return;
+    }
+
+    setError(null);
+    onLoading(true);
+    onResult(null);
+
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("resume", file); // ✅ IMPORTANT FIX
+
     try {
-      const res  = await fetch("https://cpp-resume-matcher.onrender.com/upload", { method: "POST", body: formData });
-      const data = await res.json();
+      const response = await fetch(
+        "https://cpp-resume-matcher.onrender.com/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
       onResult(data);
-    } catch {
+    } catch (err) {
+      console.error(err);
       setError("Unable to reach the server. Please try again.");
       onResult(null);
     }
+
     onLoading(false);
   };
 
   const handleDrop = (e) => {
-    e.preventDefault(); setDragActive(false);
+    e.preventDefault();
+    setDragActive(false);
     const f = e.dataTransfer.files[0];
     if (f) setFile(f);
   };
@@ -157,19 +250,44 @@ function UploadPanel({ onResult, onLoading, loading }) {
     <div className="upload-panel panel-card">
       <div className="brand">
         <div className="brand-icon">✦</div>
-        <div className="brand-name">Resume <span>Matcher</span></div>
+        <div className="brand-name">
+          Resume <span>Matcher</span>
+        </div>
       </div>
-      <h2 className="upload-heading">Find your <span>perfect</span> role match</h2>
-      <p className="upload-subtext">Upload your resume and instantly see how well you match top roles, what skills you have, and what to learn next.</p>
+
+      <h2 className="upload-heading">
+        Find your <span>perfect</span> role match
+      </h2>
+
+      <p className="upload-subtext">
+        Upload your resume and instantly see how well you match top roles,
+        what skills you have, and what to learn next.
+      </p>
+
       <div
-        className={`drop-zone ${dragActive ? "active" : ""} ${file ? "has-file" : ""}`}
-        onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+        className={`drop-zone ${dragActive ? "active" : ""} ${
+          file ? "has-file" : ""
+        }`}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragActive(true);
+        }}
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
         onClick={() => inputRef.current.click()}
       >
-        <input ref={inputRef} type="file" hidden onChange={(e) => { if (e.target.files[0]) setFile(e.target.files[0]); }} />
+        <input
+          ref={inputRef}
+          type="file"
+          accept="application/pdf"
+          hidden
+          onChange={(e) => {
+            if (e.target.files[0]) setFile(e.target.files[0]);
+          }}
+        />
+
         <span className="drop-icon">{file ? "📄" : "☁️"}</span>
+
         {file ? (
           <div className="drop-file-info">
             <span className="drop-filename">{file.name}</span>
@@ -177,31 +295,45 @@ function UploadPanel({ onResult, onLoading, loading }) {
           </div>
         ) : (
           <>
-            <span>Click or drag &amp; drop your resume</span>
+            <span>Click or drag & drop your resume</span>
             <span className="drop-sub">PDF supported</span>
           </>
         )}
       </div>
-      <button className="btn-analyze" onClick={handleUpload} disabled={loading}>
+
+      <button
+        className="btn-analyze"
+        onClick={handleUpload}
+        disabled={loading}
+      >
         {loading ? "Analyzing…" : "Analyze Resume →"}
       </button>
+
       {error && <p className="error-msg">⚠️ {error}</p>}
+
       <div className="tip-card">
-        <span className="tip-icon"></span>
         <p className="tip-text">
-          <strong>Tip: </strong> Make sure your resume clearly lists your skills and technologies for the most accurate match.
+          <strong>Tip: </strong>
+          Make sure your resume clearly lists your skills and technologies
+          for the most accurate match.
         </p>
       </div>
     </div>
   );
 }
 
+/* ================= MAIN APP ================= */
 export default function App() {
-  const [result, setResult]   = useState(null);
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+
   return (
     <div className="app">
-      <UploadPanel onResult={setResult} onLoading={setLoading} loading={loading} />
+      <UploadPanel
+        onResult={setResult}
+        onLoading={setLoading}
+        loading={loading}
+      />
       <ResultPanel result={result} loading={loading} />
     </div>
   );
