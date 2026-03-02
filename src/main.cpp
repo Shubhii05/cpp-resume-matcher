@@ -69,7 +69,7 @@ int main()
         MatchResult bestMatch;
 
         // Iterate over all job files dynamically
-        for (const auto& entry : fs::directory_iterator("../job_profiles"))
+        for (const auto& entry : fs::directory_iterator("job_profiles"))
         {
             std::string filePath = entry.path().string();
 
