@@ -218,6 +218,8 @@ function UploadPanel({ onResult, onLoading, loading }) {
       const response = await fetch("https://cpp-resume-matcher.onrender.com/upload", {
         method: "POST",
         body: formData,
+        mode: "cors"
+
       });
       const data = await response.json();
       onResult(data);
