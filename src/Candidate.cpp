@@ -17,7 +17,6 @@ void Candidate::setResume(const Resume& r) {
     resume = r;
 }
 
-
 void Candidate::displayProfile() const {
     cout << "Candidate Name: " << name << endl;
     cout << "Email: " << email << endl;

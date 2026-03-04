@@ -3,9 +3,9 @@
 
 using namespace std;
 
-// ==============================
+// ===================================
 // Helper: Convert string to lowercase
-// ==============================
+// ===================================
 static string toLowerCase(string str)
 {
     transform(str.begin(), str.end(), str.begin(),

@@ -16,6 +16,7 @@ projects.push_back(project);
 void Resume::addCertification(const string& cert){
     certifications.push_back(cert);
 }
+
 void Resume::setPhoneNumber(const string& phone) {
     phoneNumber = phone;
 }

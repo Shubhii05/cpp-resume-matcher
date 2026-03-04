@@ -35,10 +35,7 @@ function BestMatchCard({ role, percent, fitCategory }) {
 
     const t = setInterval(() => {
       cur += inc;
-      if (cur >= end) {
-        cur = end;
-        clearInterval(t);
-      }
+      if (cur >= end) { cur = end; clearInterval(t); }
       setAnimPct(cur.toFixed(2));
     }, 10);
 
@@ -52,11 +49,65 @@ function BestMatchCard({ role, percent, fitCategory }) {
         <div className="bm-role">{role}</div>
       </div>
       <div className="bm-bottom">
-        <div className="bm-percent">
-          {animPct}
-          <sup>%</sup>
-        </div>
+        <div className="bm-percent">{animPct}<sup>%</sup></div>
         <div className="fit-badge">{fitCategory}</div>
+      </div>
+    </div>
+  );
+}
+
+/* ================= ANIMATED LOADING STATE ================= */
+function LoadingState() {
+  const steps = [
+    "Reading your resume…",
+    "Extracting skills…",
+    "Matching against roles…",
+    "Computing fit scores…",
+    "Almost done…",
+  ];
+  const [step, setStep] = useState(0);
+  const [dots, setDots] = useState("");
+
+  useEffect(() => {
+    // Cycle through steps every 2s
+    const stepTimer = setInterval(() => {
+      setStep(s => (s + 1) % steps.length);
+    }, 2000);
+
+    // Animate dots
+    const dotTimer = setInterval(() => {
+      setDots(d => d.length >= 3 ? "" : d + ".");
+    }, 400);
+
+    return () => { clearInterval(stepTimer); clearInterval(dotTimer); };
+  }, []);
+
+  return (
+    <div className="result-panel panel-card">
+      <div className="result-topbar">
+        <div className="topbar-dot" />
+        <span className="topbar-label">Analysis Results</span>
+        <span className="topbar-slash">/</span>
+        <span className="topbar-sub">Resume Matcher</span>
+      </div>
+
+      <div className="loading-state">
+        {/* Animated rings */}
+        <div className="loading-rings">
+          <div className="ring ring-1" />
+          <div className="ring ring-2" />
+          <div className="ring ring-3" />
+          <div className="loading-icon">⚡</div>
+        </div>
+
+        {/* Animated text */}
+        <div className="loading-title">Analyzing{dots}</div>
+        <div className="loading-step fade-step" key={step}>{steps[step]}</div>
+
+        {/* Progress bar */}
+        <div className="loading-bar-track">
+          <div className="loading-bar-fill" />
+        </div>
       </div>
     </div>
   );
@@ -80,43 +131,15 @@ function ResultPanel({ result, loading }) {
     </div>
   );
 
-  if (loading)
-    return (
-      <EmptyShell
-        icon="⏳"
-        title="Analyzing…"
-        sub="Matching skills against role requirements."
-      />
-    );
+  if (loading) return <LoadingState />;
 
   if (!result)
-    return (
-      <EmptyShell
-        icon="📋"
-        title="No analysis yet"
-        sub="Upload your resume and click Analyze."
-      />
-    );
+    return <EmptyShell icon="📋" title="No analysis yet" sub="Upload your resume and click Analyze." />;
 
   if (!result.success)
-    return (
-      <EmptyShell
-        icon="⚠️"
-        title="Something went wrong"
-        sub={result.message}
-      />
-    );
+    return <EmptyShell icon="⚠️" title="Something went wrong" sub={result.message} />;
 
-  const {
-    name,
-    email,
-    best_role,
-    percentage,
-    fit_category,
-    comparison,
-    matched_skills,
-    missing_skills,
-  } = result.data;
+  const { name, email, best_role, percentage, fit_category, comparison, matched_skills, missing_skills } = result.data;
 
   return (
     <div className="result-panel panel-card">
@@ -133,22 +156,12 @@ function ResultPanel({ result, loading }) {
       </div>
 
       <div className="top-row">
-        <BestMatchCard
-          role={best_role}
-          percent={percentage}
-          fitCategory={fit_category}
-        />
-
+        <BestMatchCard role={best_role} percent={percentage} fitCategory={fit_category} />
         <div className="stat-card fade-in">
           <div className="stat-card-label">Role Comparison</div>
           <div className="comparison-list">
             {Object.entries(comparison).map(([role, score], i) => (
-              <ComparisonBar
-                key={role}
-                role={role}
-                score={parseFloat(score)}
-                index={i}
-              />
+              <ComparisonBar key={role} role={role} score={parseFloat(score)} index={i} />
             ))}
           </div>
         </div>
@@ -160,18 +173,12 @@ function ResultPanel({ result, loading }) {
           {matched_skills?.length > 0 ? (
             <div className="skills-wrap">
               {matched_skills.map((s, i) => (
-                <span
-                  key={i}
-                  className="skill-tag matched"
-                  style={{ animationDelay: `${i * 0.04}s` }}
-                >
+                <span key={i} className="skill-tag matched" style={{ animationDelay: `${i * 0.04}s` }}>
                   ✓ {s}
                 </span>
               ))}
             </div>
-          ) : (
-            <p className="no-skills">No matched skills found</p>
-          )}
+          ) : <p className="no-skills">No matched skills found</p>}
         </div>
 
         <div className="stat-card fade-in">
@@ -179,20 +186,12 @@ function ResultPanel({ result, loading }) {
           {missing_skills?.length > 0 ? (
             <div className="skills-wrap">
               {missing_skills.map((s, i) => (
-                <span
-                  key={i}
-                  className="skill-tag missing"
-                  style={{ animationDelay: `${i * 0.04}s` }}
-                >
+                <span key={i} className="skill-tag missing" style={{ animationDelay: `${i * 0.04}s` }}>
                   + {s}
                 </span>
               ))}
             </div>
-          ) : (
-            <p className="no-skills" style={{ color: "#065f46" }}>
-              No missing skills.
-            </p>
-          )}
+          ) : <p className="no-skills" style={{ color: "#065f46" }}>No missing skills.</p>}
         </div>
       </div>
     </div>
@@ -207,27 +206,19 @@ function UploadPanel({ onResult, onLoading, loading }) {
   const inputRef = useRef();
 
   const handleUpload = async () => {
-    if (!file) {
-      setError("Please select a file first.");
-      return;
-    }
-
+    if (!file) { setError("Please select a file first."); return; }
     setError(null);
     onLoading(true);
     onResult(null);
 
     const formData = new FormData();
-    formData.append("resume", file); // ✅ IMPORTANT FIX
+    formData.append("resume", file);
 
     try {
-      const response = await fetch(
-        "https://cpp-resume-matcher.onrender.com/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
+      const response = await fetch("https://cpp-resume-matcher.onrender.com/upload", {
+        method: "POST",
+        body: formData,
+      });
       const data = await response.json();
       onResult(data);
     } catch (err) {
@@ -250,14 +241,10 @@ function UploadPanel({ onResult, onLoading, loading }) {
     <div className="upload-panel panel-card">
       <div className="brand">
         <div className="brand-icon">✦</div>
-        <div className="brand-name">
-          Resume <span>Matcher</span>
-        </div>
+        <div className="brand-name">Resume <span>Matcher</span></div>
       </div>
 
-      <h2 className="upload-heading">
-        Find your <span>perfect</span> role match
-      </h2>
+      <h2 className="upload-heading">Find your <span>perfect</span> role match</h2>
 
       <p className="upload-subtext">
         Upload your resume and instantly see how well you match top roles,
@@ -265,13 +252,8 @@ function UploadPanel({ onResult, onLoading, loading }) {
       </p>
 
       <div
-        className={`drop-zone ${dragActive ? "active" : ""} ${
-          file ? "has-file" : ""
-        }`}
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragActive(true);
-        }}
+        className={`drop-zone ${dragActive ? "active" : ""} ${file ? "has-file" : ""}`}
+        onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
         onClick={() => inputRef.current.click()}
@@ -281,13 +263,9 @@ function UploadPanel({ onResult, onLoading, loading }) {
           type="file"
           accept="application/pdf"
           hidden
-          onChange={(e) => {
-            if (e.target.files[0]) setFile(e.target.files[0]);
-          }}
+          onChange={(e) => { if (e.target.files[0]) setFile(e.target.files[0]); }}
         />
-
         <span className="drop-icon">{file ? "📄" : "☁️"}</span>
-
         {file ? (
           <div className="drop-file-info">
             <span className="drop-filename">{file.name}</span>
@@ -295,18 +273,19 @@ function UploadPanel({ onResult, onLoading, loading }) {
           </div>
         ) : (
           <>
-            <span>Click or drag & drop your resume</span>
+            <span>Click or drag &amp; drop your resume</span>
             <span className="drop-sub">PDF supported</span>
           </>
         )}
       </div>
 
-      <button
-        className="btn-analyze"
-        onClick={handleUpload}
-        disabled={loading}
-      >
-        {loading ? "Analyzing…" : "Analyze Resume →"}
+      <button className="btn-analyze" onClick={handleUpload} disabled={loading}>
+        {loading ? (
+          <span className="btn-loading">
+            <span className="btn-spinner" />
+            Analyzing…
+          </span>
+        ) : "Analyze Resume →"}
       </button>
 
       {error && <p className="error-msg">⚠️ {error}</p>}
@@ -314,8 +293,7 @@ function UploadPanel({ onResult, onLoading, loading }) {
       <div className="tip-card">
         <p className="tip-text">
           <strong>Tip: </strong>
-          Make sure your resume clearly lists your skills and technologies
-          for the most accurate match.
+          Make sure your resume clearly lists your skills and technologies for the most accurate match.
         </p>
       </div>
     </div>
@@ -329,11 +307,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <UploadPanel
-        onResult={setResult}
-        onLoading={setLoading}
-        loading={loading}
-      />
+      <UploadPanel onResult={setResult} onLoading={setLoading} loading={loading} />
       <ResultPanel result={result} loading={loading} />
     </div>
   );
