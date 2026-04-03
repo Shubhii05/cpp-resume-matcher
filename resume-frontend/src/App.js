@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 /* ================= COMPARISON BAR ================= */
-function ComparisonBar({ role, score, index }) {
+function ComparisonBar({ role, score, index, onClick, isSelected }) {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
@@ -11,7 +11,17 @@ function ComparisonBar({ role, score, index }) {
   }, [score, index]);
 
   return (
-    <div className="comparison-item">
+    <div
+      className={`comparison-item ${isSelected ? "selected" : ""}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          onClick?.();
+        }
+      }}
+    >
       <div className="comparison-meta">
         <span className="comparison-role">{role}</span>
         <span className="comparison-pct">{score}%</span>
@@ -97,7 +107,7 @@ function LoadingState() {
           <div className="ring ring-1" />
           <div className="ring ring-2" />
           <div className="ring ring-3" />
-          <div className="loading-icon">⚡</div>
+          <div className="loading-icon">{"\u26A1"}</div>
         </div>
 
         {/* Animated text */}
@@ -134,12 +144,33 @@ function ResultPanel({ result, loading }) {
   if (loading) return <LoadingState />;
 
   if (!result)
-    return <EmptyShell icon="📋" title="No analysis yet" sub="Upload your resume and click Analyze." />;
+    return <EmptyShell icon={"\uD83D\uDCCB"} title="No analysis yet" sub="Upload your resume and click Analyze." />;
 
   if (!result.success)
-    return <EmptyShell icon="⚠️" title="Something went wrong" sub={result.message} />;
+    return <EmptyShell icon={"\u26A0\uFE0F"} title="Something went wrong" sub={result.message} />;
 
   const { name, email, best_role, percentage, fit_category, comparison, matched_skills, missing_skills } = result.data;
+
+  const topRoles = Array.isArray(result.data.top_roles)
+    ? result.data.top_roles
+    : Object.entries(comparison || {}).map(([role, score]) => ({
+        role,
+        percentage: score,
+        matched_skills: matched_skills || [],
+        missing_skills: missing_skills || [],
+      }));
+
+  const [selectedRole, setSelectedRole] = useState(best_role || topRoles[0]?.role || "");
+
+  useEffect(() => {
+    setSelectedRole(best_role || topRoles[0]?.role || "");
+  }, [best_role, result]);
+
+  const selectedRoleData =
+    topRoles.find((item) => item.role === selectedRole) || {
+      matched_skills: matched_skills || [],
+      missing_skills: missing_skills || [],
+    };
 
   return (
     <div className="result-panel panel-card">
@@ -160,8 +191,15 @@ function ResultPanel({ result, loading }) {
         <div className="stat-card fade-in">
           <div className="stat-card-label">Role Comparison</div>
           <div className="comparison-list">
-            {Object.entries(comparison).map(([role, score], i) => (
-              <ComparisonBar key={role} role={role} score={parseFloat(score)} index={i} />
+            {Object.entries(comparison || {}).map(([role, score], i) => (
+              <ComparisonBar
+                key={role}
+                role={role}
+                score={parseFloat(score)}
+                index={i}
+                onClick={() => setSelectedRole(role)}
+                isSelected={selectedRole === role}
+              />
             ))}
           </div>
         </div>
@@ -170,11 +208,11 @@ function ResultPanel({ result, loading }) {
       <div className="bottom-row">
         <div className="stat-card fade-in">
           <div className="stat-card-label">Matched Skills</div>
-          {matched_skills?.length > 0 ? (
+          {selectedRoleData?.matched_skills?.length > 0 ? (
             <div className="skills-wrap">
-              {matched_skills.map((s, i) => (
+              {selectedRoleData.matched_skills.map((s, i) => (
                 <span key={i} className="skill-tag matched" style={{ animationDelay: `${i * 0.04}s` }}>
-                  ✓ {s}
+                  {"\u2713"} {s}
                 </span>
               ))}
             </div>
@@ -183,9 +221,9 @@ function ResultPanel({ result, loading }) {
 
         <div className="stat-card fade-in">
           <div className="stat-card-label">Skills to Acquire</div>
-          {missing_skills?.length > 0 ? (
+          {selectedRoleData?.missing_skills?.length > 0 ? (
             <div className="skills-wrap">
-              {missing_skills.map((s, i) => (
+              {selectedRoleData.missing_skills.map((s, i) => (
                 <span key={i} className="skill-tag missing" style={{ animationDelay: `${i * 0.04}s` }}>
                   + {s}
                 </span>
@@ -242,7 +280,7 @@ function UploadPanel({ onResult, onLoading, loading }) {
   return (
     <div className="upload-panel panel-card">
       <div className="brand">
-        <div className="brand-icon">✦</div>
+        <div className="brand-icon">{"\u2726"}</div>
         <div className="brand-name">Resume <span>Matcher</span></div>
       </div>
 
@@ -267,7 +305,7 @@ function UploadPanel({ onResult, onLoading, loading }) {
           hidden
           onChange={(e) => { if (e.target.files[0]) setFile(e.target.files[0]); }}
         />
-        <span className="drop-icon">{file ? "📄" : "☁️"}</span>
+        <span className="drop-icon">{file ? "\uD83D\uDCC4" : "\u2601\uFE0F"}</span>
         {file ? (
           <div className="drop-file-info">
             <span className="drop-filename">{file.name}</span>
@@ -287,10 +325,10 @@ function UploadPanel({ onResult, onLoading, loading }) {
             <span className="btn-spinner" />
             Analyzing…
           </span>
-        ) : "Analyze Resume →"}
+        ) : "Analyze Resume \u2192"}
       </button>
 
-      {error && <p className="error-msg">⚠️ {error}</p>}
+      {error && <p className="error-msg">{"\u26A0\uFE0F"} {error}</p>}
 
       <div className="tip-card">
         <p className="tip-text">

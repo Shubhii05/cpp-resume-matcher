@@ -246,7 +246,17 @@ body { font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; 
 }
 
 .comparison-list { display: flex; flex-direction: column; gap: 10px; flex: 1; justify-content: center; }
-.comparison-item { display: flex; flex-direction: column; gap: 4px; }
+.comparison-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 4px 6px;
+}
+.comparison-item.selected {
+  background: rgba(184,216,248,0.35);
+}
 .comparison-meta { display: flex; justify-content: space-between; align-items: center; }
 .comparison-role { font-size: 12.5px; font-weight: 500; color: var(--text-2); }
 .comparison-pct  { font-size: 12.5px; font-weight: 700; color: rgba(21,17,17,0.555); white-space: nowrap; }

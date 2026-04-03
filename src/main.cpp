@@ -156,6 +156,22 @@ int main()
             {
                 data["comparison"][allResults[i].first] =
                     allResults[i].second.percentage;
+
+                data["top_roles"][i]["role"] = allResults[i].first;
+                data["top_roles"][i]["percentage"] = allResults[i].second.percentage;
+                data["top_roles"][i]["fit_category"] = allResults[i].second.fitCategory;
+
+                int mk = 0;
+                for (const auto &skill : allResults[i].second.matchedSkills)
+                {
+                    data["top_roles"][i]["matched_skills"][mk++] = skill;
+                }
+
+                int ms = 0;
+                for (const auto &skill : allResults[i].second.missingSkills)
+                {
+                    data["top_roles"][i]["missing_skills"][ms++] = skill.first;
+                }
             }
 
             data["best_role"]    = bestRole;
