@@ -8,8 +8,21 @@
 #include <cstdlib>
 #include <filesystem>
 #include <algorithm>
+#include <chrono>
+#include <thread>
+#include <atomic>
+#include <functional>
 
 namespace fs = std::filesystem;
+
+static std::string makeRequestId()
+{
+    static std::atomic<unsigned long long> counter{0};
+    const auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    const auto tid = std::hash<std::thread::id>{}(std::this_thread::get_id());
+    const auto seq = counter.fetch_add(1, std::memory_order_relaxed);
+    return std::to_string(now) + "_" + std::to_string(tid) + "_" + std::to_string(seq);
+}
 
 int main()
 {
@@ -52,8 +65,9 @@ int main()
             fs::create_directories("uploads");
             fs::create_directories("extracted");
 
-            std::string savedPath = "uploads/resume.pdf";
-            std::string txtPath   = "extracted/resume.txt";
+            const std::string requestId = makeRequestId();
+            std::string savedPath = (fs::path("uploads") / ("resume_" + requestId + ".pdf")).string();
+            std::string txtPath = (fs::path("extracted") / ("resume_" + requestId + ".txt")).string();
 
             bool fileSaved = false;
 
@@ -80,13 +94,13 @@ int main()
 
             // Convert PDF to text
             std::string command =
-                "/usr/bin/pdftotext -layout \"" + savedPath + "\" \"" + txtPath + "\"";
+                "pdftotext -layout \"" + savedPath + "\" \"" + txtPath + "\"";
 
             if (system(command.c_str()) != 0)
             {
                 crow::json::wvalue error;
                 error["success"] = false;
-                error["message"] = "PDF extraction failed";
+                error["message"] = "PDF extraction failed. Install pdftotext and add it to PATH.";
                 return crow::response(500, error);
             }
 

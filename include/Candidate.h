@@ -8,7 +8,6 @@ class Candidate : public Person
 {
 private:
     Resume resume;
-    vector<string> skills;
 
 
 public:

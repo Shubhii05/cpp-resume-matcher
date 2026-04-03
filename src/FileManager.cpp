@@ -11,7 +11,7 @@
 #include <set>
 #include <map>
 #include <algorithm>
-#include <cctype>
+#include <cctype>     //isspace isdigit
 
 using namespace std;
 
@@ -282,7 +282,7 @@ Candidate FileManager::parseUnstructuredResume(const std::string &filename)
         size_t atPos = cleanedLine.find('@');
         if (atPos != string::npos)
         {
-            size_t start = atPos;
+            size_t start = atPos; //size_t is an unsigned integer type used to represent the size of objects or arrays in memory.
             while (start > 0 &&
                    !isspace(static_cast<unsigned char>(cleanedLine[start - 1])))
             {

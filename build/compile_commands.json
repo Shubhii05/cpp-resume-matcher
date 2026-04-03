@@ -1,0 +1,44 @@
+[
+{
+  "directory": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DASIO_STANDALONE @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\Candidate.cpp.obj -c \"C:\\Users\\shubhi gupta\\OneDrive\\Desktop\\3rd year\\ResumeMatcher\\src\\Candidate.cpp\"",
+  "file": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/src/Candidate.cpp",
+  "output": "CMakeFiles/server.dir/src/Candidate.cpp.obj"
+},
+{
+  "directory": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DASIO_STANDALONE @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\FileManager.cpp.obj -c \"C:\\Users\\shubhi gupta\\OneDrive\\Desktop\\3rd year\\ResumeMatcher\\src\\FileManager.cpp\"",
+  "file": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/src/FileManager.cpp",
+  "output": "CMakeFiles/server.dir/src/FileManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DASIO_STANDALONE @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\Job.cpp.obj -c \"C:\\Users\\shubhi gupta\\OneDrive\\Desktop\\3rd year\\ResumeMatcher\\src\\Job.cpp\"",
+  "file": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/src/Job.cpp",
+  "output": "CMakeFiles/server.dir/src/Job.cpp.obj"
+},
+{
+  "directory": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DASIO_STANDALONE @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\JobMatcher.cpp.obj -c \"C:\\Users\\shubhi gupta\\OneDrive\\Desktop\\3rd year\\ResumeMatcher\\src\\JobMatcher.cpp\"",
+  "file": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/src/JobMatcher.cpp",
+  "output": "CMakeFiles/server.dir/src/JobMatcher.cpp.obj"
+},
+{
+  "directory": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DASIO_STANDALONE @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\Person.cpp.obj -c \"C:\\Users\\shubhi gupta\\OneDrive\\Desktop\\3rd year\\ResumeMatcher\\src\\Person.cpp\"",
+  "file": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/src/Person.cpp",
+  "output": "CMakeFiles/server.dir/src/Person.cpp.obj"
+},
+{
+  "directory": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DASIO_STANDALONE @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\Resume.cpp.obj -c \"C:\\Users\\shubhi gupta\\OneDrive\\Desktop\\3rd year\\ResumeMatcher\\src\\Resume.cpp\"",
+  "file": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/src/Resume.cpp",
+  "output": "CMakeFiles/server.dir/src/Resume.cpp.obj"
+},
+{
+  "directory": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DASIO_STANDALONE @CMakeFiles/server.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\server.dir\\src\\main.cpp.obj -c \"C:\\Users\\shubhi gupta\\OneDrive\\Desktop\\3rd year\\ResumeMatcher\\src\\main.cpp\"",
+  "file": "C:/Users/shubhi gupta/OneDrive/Desktop/3rd year/ResumeMatcher/src/main.cpp",
+  "output": "CMakeFiles/server.dir/src/main.cpp.obj"
+}
+]

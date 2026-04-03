@@ -9,7 +9,7 @@ using namespace std;
 static string toLowerCase(string str)
 {
     transform(str.begin(), str.end(), str.begin(),
-              [](unsigned char c) { return tolower(c); });
+              [](unsigned char c) { return tolower(c); });          //unsigned char is a 1-byte integer type that stores values from 0 to 255.
     return str;
 }
 

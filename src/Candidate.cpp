@@ -17,6 +17,10 @@ void Candidate::setResume(const Resume& r) {
     resume = r;
 }
 
+vector<string> Candidate::getSkills() const {
+    return resume.getSkills();
+}
+
 void Candidate::displayProfile() const {
     cout << "Candidate Name: " << name << endl;
     cout << "Email: " << email << endl;
