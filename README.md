@@ -19,10 +19,7 @@ A console-based C++ application that matches candidate resumes with job profiles
 - STL (Vectors, Strings, Algorithms)
 
 ## How to Run
-```bash
-g++ main.cpp Candidate.cpp Resume.cpp Job.cpp JobMatcher.cpp FileManager.cpp -o ResumeMatcher
-./ResumeMatcher
-```
+https://cpp-resume-matcher.vercel.app
 
 ## Purpose
 Simulates a basic Applicant Tracking System (ATS) to evaluate candidate-job compatibility.
