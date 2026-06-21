@@ -349,6 +349,20 @@ export default function App() {
     <div className="app">
       <UploadPanel onResult={setResult} onLoading={setLoading} loading={loading} />
       <ResultPanel result={result} loading={loading} />
+      <footer className="app-footer">
+        <p>
+          &copy; 2026 Resume Matcher |{" "}
+          <a
+            href="https://digitalheroesco.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-link-button"
+          >
+            <button type="button" className="hero-btn">Built for Digital Heroes</button>
+          </a>
+        </p>
+        <p>Developed by Shubhi Gupta &bull; shubhigupta775@gmail.com</p>
+      </footer>
     </div>
   );
 }
