@@ -66,6 +66,25 @@ function BestMatchCard({ role, percent, fitCategory }) {
   );
 }
 
+/* ================= PANEL FOOTER ================= */
+function PanelFooter() {
+  return (
+    <div className="panel-footer">
+      <p>
+        &copy; 2026 Resume Matcher |{" "}
+        <a href="https://digitalheroesco.com" target="_blank" rel="noopener noreferrer">
+          Built for Digital Heroes
+        </a>
+      </p>
+      <p>
+        Developed by Shubhi Gupta &middot;{" "}
+        <a href="mailto:shubhigupta775@gmail.com">shubhigupta775@gmail.com</a>
+      </p>
+    </div>
+  );
+}
+
+
 /* ================= ANIMATED LOADING STATE ================= */
 function LoadingState() {
   const steps = [
@@ -119,6 +138,7 @@ function LoadingState() {
           <div className="loading-bar-fill" />
         </div>
       </div>
+      <PanelFooter />
     </div>
   );
 }
@@ -138,6 +158,7 @@ function ResultPanel({ result, loading }) {
         <div className="empty-title">{title}</div>
         <div className="empty-sub">{sub}</div>
       </div>
+      <PanelFooter />
     </div>
   );
 
@@ -232,6 +253,7 @@ function ResultPanel({ result, loading }) {
           ) : <p className="no-skills" style={{ color: "#065f46" }}>No missing skills.</p>}
         </div>
       </div>
+      <PanelFooter />
     </div>
   );
 }
@@ -349,20 +371,6 @@ export default function App() {
     <div className="app">
       <UploadPanel onResult={setResult} onLoading={setLoading} loading={loading} />
       <ResultPanel result={result} loading={loading} />
-      <footer className="app-footer">
-        <p>
-          &copy; 2026 Resume Matcher |{" "}
-          <a
-            href="https://digitalheroesco.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-link-button"
-          >
-            <button type="button" className="hero-btn">Built for Digital Heroes</button>
-          </a>
-        </p>
-        <p>Developed by Shubhi Gupta &bull; shubhigupta775@gmail.com</p>
-      </footer>
     </div>
   );
 }
