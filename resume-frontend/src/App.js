@@ -143,6 +143,171 @@ function LoadingState() {
   );
 }
 
+/* ================= AI FEEDBACK CARD ================= */
+function AIFeedbackCard({ requestId, role }) {
+  const [feedback, setFeedback] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const fetchFeedback = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("http://localhost:18080/evaluate", {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ request_id: requestId, role: role })
+      });
+      const text = await response.text();
+      let data;
+      try { data = JSON.parse(text); } catch(e) { throw new Error("Bad response: " + text.substring(0, 100)); }
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setFeedback(data);
+      }
+    } catch (err) {
+      setError(err.message || "Unable to reach AI service.");
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    // Reset feedback when resume changes (new upload)
+    setFeedback(null);
+    setError(null);
+    setIsExpanded(false);
+  }, [requestId]);
+
+  const glassStyle = {
+    background: 'rgba(255, 255, 255, 0.4)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '12px',
+    padding: '16px',
+    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.03)'
+  };
+
+  const headerStyle = {
+    color: 'var(--text-1)',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    marginBottom: '10px',
+    fontSize: '15px',
+    fontWeight: '600',
+    fontFamily: "'Playfair Display', serif"
+  };
+
+  const listStyle = {
+    margin: 0,
+    paddingLeft: '24px',
+    color: 'var(--text-2)',
+    fontSize: '13.5px',
+    lineHeight: '1.6',
+    fontWeight: '400'
+  };
+
+  return (
+    <div className="stat-card fade-in ai-feedback-card" style={{ marginTop: '16px', borderTop: '4px solid #B8D8F8' }}>
+      <div className="stat-card-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <span>✨ AI Recruiter Analysis</span>
+        {feedback && (
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: 'var(--sky-deep)', fontSize: '12px', fontWeight: '600',
+              padding: '4px 8px', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '4px'
+            }}
+          >
+            {isExpanded ? 'Hide Details ▲' : 'View Full Report ▼'}
+          </button>
+        )}
+      </div>
+
+      {!feedback && !loading && !error && (
+        <div style={{ ...glassStyle, textAlign: 'center', padding: '20px' }}>
+          <p style={{ color: 'var(--text-3)', fontSize: '13px', marginBottom: '12px' }}>
+            Get a personalized AI recruiter review of your resume for the <strong style={{ color: 'var(--sky-deep)' }}>{role}</strong> role.
+          </p>
+          <button className="btn-ai" onClick={fetchFeedback} style={{ margin: '0 auto' }}>
+            ✨ Generate AI Analysis
+          </button>
+        </div>
+      )}
+
+      {loading && (
+        <div style={{ ...glassStyle, textAlign: 'center', padding: '24px' }}>
+          <div className="btn-spinner" style={{ margin: '0 auto', width: '24px', height: '24px', borderColor: 'rgba(30,111,171,0.3)', borderTopColor: 'var(--sky-deep)' }} />
+          <p style={{ color: 'var(--sky-deep)', fontSize: '13px', fontWeight: '500', marginTop: '10px' }}>Generating Insights...</p>
+        </div>
+      )}
+
+      {error && (
+        <div style={{ ...glassStyle, textAlign: 'center' }}>
+          <p className="error-msg">{error}</p>
+          <button className="btn-ai" onClick={() => fetchFeedback()} style={{ marginTop: '12px', padding: '8px 16px', fontSize: '13px' }}>
+            🔄 Retry Analysis
+          </button>
+        </div>
+      )}
+
+      {feedback && !isExpanded && (
+        <div style={{ ...glassStyle, cursor: 'pointer' }} onClick={() => setIsExpanded(true)}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+            <span style={{ fontSize: '18px', flexShrink: 0 }}>💡</span>
+            <div>
+              <h4 style={{ margin: '0 0 4px 0', fontSize: '14px', color: 'var(--text-1)' }}>Key Strength</h4>
+              <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-2)', lineHeight: '1.5' }}>
+                {feedback.strengths?.[0] || "Strong match for this role based on core skills."}
+              </p>
+              <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: 'var(--sky-deep)', fontWeight: '500' }}>
+                Click to view full analysis →
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {feedback && isExpanded && (
+        <div className="ai-feedback-content" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          
+          <div className="feedback-section fade-in" style={glassStyle}>
+            <h4 style={headerStyle}>
+              <span style={{ opacity: 0.8 }}>🚀</span> Strengths
+            </h4>
+            <ul style={listStyle}>
+              {feedback.strengths?.map((s, i) => <li key={i} style={{marginBottom: '6px'}}>{s}</li>)}
+            </ul>
+          </div>
+
+          <div className="feedback-section fade-in" style={glassStyle}>
+            <h4 style={headerStyle}>
+              <span style={{ opacity: 0.8 }}>🎯</span> Areas to Improve
+            </h4>
+            <ul style={listStyle}>
+              {feedback.weaknesses?.map((w, i) => <li key={i} style={{marginBottom: '6px'}}>{w}</li>)}
+            </ul>
+          </div>
+
+          <div className="feedback-section fade-in" style={glassStyle}>
+            <h4 style={headerStyle}>
+              <span style={{ opacity: 0.8 }}>💡</span> Actionable Tips
+            </h4>
+            <ul style={listStyle}>
+              {feedback.improvement_tips?.map((t, i) => <li key={i} style={{marginBottom: '6px'}}>{t}</li>)}
+            </ul>
+          </div>
+
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ================= RESULT PANEL ================= */
 function ResultPanel({ result, loading }) {
   const EmptyShell = ({ icon, title, sub }) => (
@@ -170,7 +335,7 @@ function ResultPanel({ result, loading }) {
   if (!result.success)
     return <EmptyShell icon={"\u26A0\uFE0F"} title="Something went wrong" sub={result.message} />;
 
-  const { name, email, best_role, percentage, fit_category, comparison, matched_skills, missing_skills } = result.data;
+  const { request_id, name, email, best_role, percentage, fit_category, comparison, matched_skills, missing_skills } = result.data;
 
   const topRoles = Array.isArray(result.data.top_roles)
     ? result.data.top_roles
@@ -202,56 +367,64 @@ function ResultPanel({ result, loading }) {
         <span className="topbar-sub">Resume Matcher</span>
       </div>
 
-      <div className="name-block">
-        <span className="display-name">{name}</span>
-        <span className="display-email">{email}</span>
-      </div>
+      <div className="result-content-scroll" style={{ overflowY: 'auto', flex: 1, paddingBottom: '20px' }}>
+        <div className="name-block">
+          <span className="display-name">{name}</span>
+          <span className="display-email">{email}</span>
+        </div>
 
-      <div className="top-row">
-        <BestMatchCard role={best_role} percent={percentage} fitCategory={fit_category} />
-        <div className="stat-card fade-in">
-          <div className="stat-card-label">Role Comparison</div>
-          <div className="comparison-list">
-            {Object.entries(comparison || {}).map(([role, score], i) => (
-              <ComparisonBar
-                key={role}
-                role={role}
-                score={parseFloat(score)}
-                index={i}
-                onClick={() => setSelectedRole(role)}
-                isSelected={selectedRole === role}
-              />
-            ))}
+        <div className="top-row" style={{ height: 'auto', minHeight: '180px', paddingBottom: '16px' }}>
+          <BestMatchCard role={best_role} percent={percentage} fitCategory={fit_category} />
+          <div className="stat-card fade-in">
+            <div className="stat-card-label">Role Comparison</div>
+            <div className="comparison-list">
+              {Object.entries(comparison || {}).map(([role, score], i) => (
+                <ComparisonBar
+                  key={role}
+                  role={role}
+                  score={parseFloat(score)}
+                  index={i}
+                  onClick={() => setSelectedRole(role)}
+                  isSelected={selectedRole === role}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="bottom-row">
-        <div className="stat-card fade-in">
-          <div className="stat-card-label">Matched Skills</div>
-          {selectedRoleData?.matched_skills?.length > 0 ? (
-            <div className="skills-wrap">
-              {selectedRoleData.matched_skills.map((s, i) => (
-                <span key={i} className="skill-tag matched" style={{ animationDelay: `${i * 0.04}s` }}>
-                  {"\u2713"} {s}
-                </span>
-              ))}
-            </div>
-          ) : <p className="no-skills">No matched skills found</p>}
+        <div className="bottom-row" style={{ height: 'auto', overflow: 'visible', paddingBottom: '0' }}>
+          <div className="stat-card fade-in">
+            <div className="stat-card-label">Matched Skills</div>
+            {selectedRoleData?.matched_skills?.length > 0 ? (
+              <div className="skills-wrap">
+                {selectedRoleData.matched_skills.map((s, i) => (
+                  <span key={i} className="skill-tag matched" style={{ animationDelay: `${i * 0.04}s` }}>
+                    {"\u2713"} {s}
+                  </span>
+                ))}
+              </div>
+            ) : <p className="no-skills">No matched skills found</p>}
+          </div>
+
+          <div className="stat-card fade-in">
+            <div className="stat-card-label">Skills to Acquire</div>
+            {selectedRoleData?.missing_skills?.length > 0 ? (
+              <div className="skills-wrap">
+                {selectedRoleData.missing_skills.map((s, i) => (
+                  <span key={i} className="skill-tag missing" style={{ animationDelay: `${i * 0.04}s` }}>
+                    + {s}
+                  </span>
+                ))}
+              </div>
+            ) : <p className="no-skills" style={{ color: "#065f46" }}>No missing skills.</p>}
+          </div>
         </div>
 
-        <div className="stat-card fade-in">
-          <div className="stat-card-label">Skills to Acquire</div>
-          {selectedRoleData?.missing_skills?.length > 0 ? (
-            <div className="skills-wrap">
-              {selectedRoleData.missing_skills.map((s, i) => (
-                <span key={i} className="skill-tag missing" style={{ animationDelay: `${i * 0.04}s` }}>
-                  + {s}
-                </span>
-              ))}
-            </div>
-          ) : <p className="no-skills" style={{ color: "#065f46" }}>No missing skills.</p>}
-        </div>
+        {request_id && best_role && (
+          <div style={{ padding: '0 16px' }}>
+            <AIFeedbackCard requestId={request_id} role={selectedRole} />
+          </div>
+        )}
       </div>
       <PanelFooter />
     </div>
@@ -275,7 +448,7 @@ function UploadPanel({ onResult, onLoading, loading }) {
     formData.append("resume", file);
 
     try {
-      const response = await fetch("https://cpp-resume-matcher.onrender.com/upload", {
+      const response = await fetch("http://localhost:18080/upload", {
         method: "POST",
         body: formData,
         mode: "cors"

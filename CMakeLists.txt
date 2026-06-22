@@ -15,3 +15,8 @@ include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 include_directories(include)
 add_executable(server ${SOURCES})
+
+if(WIN32)
+    target_link_libraries(server ws2_32 mswsock)
+    set_target_properties(server PROPERTIES LINK_FLAGS "-static")
+endif()

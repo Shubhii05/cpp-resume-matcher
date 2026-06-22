@@ -705,3 +705,63 @@ body { font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; 
 .panel-footer a:hover {
   text-decoration: underline;
 }
+
+/* ════════════════════════
+   AI FEEDBACK CARD
+════════════════════════ */
+.ai-feedback-card {
+  margin-top: 20px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(109, 127, 242, 0.3);
+  box-shadow: 0 8px 24px rgba(109, 127, 242, 0.15);
+}
+
+.btn-ai {
+  margin-top: 12px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  transition: all 0.25s;
+}
+
+.btn-ai:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.ai-feedback-content {
+  margin-top: 16px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.feedback-section {
+  margin-bottom: 16px;
+}
+
+.feedback-section h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: #3a93ed;
+  margin-bottom: 8px;
+}
+
+.feedback-section ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.feedback-section li {
+  margin-bottom: 4px;
+}

@@ -1,0 +1,79 @@
+Shubhi Gupta                                                                                                +91-8410074328
+                                                                                             shubhigupta775@gmail.com
+B.Tech in Computer Science & Engineering (AI)
+KIET Group of Institutions, Ghaziabad                                                               github.com/Shubhii05
+                                                                                          leetcode.com/ShubhiGupta05
+                                                                                     linkedin.com/in/shubhigupta0504
+
+Education                                                                                                         2023­2027
+                                                                                                                 CGPA: 8.22
+Bachelor of Technology in Computer Science and Engineering (Artificial Intelligence)
+                                                                                                                  2021­2022
+KIET Group of Institutions                                                                                 Percentage: 93.5
+
+Intermediate Schooling                                                                                            2019­2020
+                                                                                                           Percentage: 97.8
+Aligarh Muslim University
+
+High School
+
+Aligarh Muslim University
+
+Technical Projects
+
+ChronoQueue ­ Distributed Video Processing Platform                                                        Feb 2026 ­ May 2026
+
+Distributed task queue system for asynchronous video processing using microservices architecture.
+
+Built a scalable video processing platform using Node.js, Redis, Upstash, PostgreSQL, Supabase, and Docker,
+supporting asynchronous execution across 3+ concurrent worker services.
+Designed a Redis-backed distributed task queue with retry mechanisms, dead-letter handling, and real-time job
+tracking, achieving 99%+ successful job processing reliability under concurrent workloads.
+Containerized microservices with Docker and implemented horizontally scalable worker architecture, enabling 5×
+higher concurrent job throughput without architectural changes.
+
+ResumeMatcher ­ AI Resume Matching System                                                                  Oct 2025 ­ Jan 2026
+
+C++-based resume screening system for automated candidate-job matching and ranking.
+
+Developed a resume matching engine in C++ using object-oriented design and STL data structures to evaluate
+candidates across 10+ skill categories with weighted scoring logic.
+Implemented keyword extraction, skill mapping, and ranking algorithms to automate candidate screening, reducing
+manual filtering effort by an estimated 60%.
+Built a modular REST API service using Crow and CMake with structured file parsing support, enabling scalable
+integration with frontend applications and external job datasets.
+
+Scoops ­ Full-Stack Ice Cream E-Commerce Platform                                                          Dec 2024 ­ Apr 2025
+
+Full-stack web application with user authentication, session management, and real-time table reservation.
+
+Developed a responsive frontend using React, TypeScript, TailwindCSS, and Framer Motion with reusable compo-
+nent architecture.
+Implemented authentication workflows, REST API integration, and Redis-backed persistent cart synchronization.
+Optimized performance and responsive design for seamless user experience across desktop, tablet, and mobile
+devices.
+
+Technical Skills
+
+ Languages: C++, JavaScript, TypeScript, SQL
+ Frontend: React.js, HTML5, CSS3, TailwindCSS
+ Backend: Node.js, Express.js, REST APIs
+ Databases: PostgreSQL, MySQL, Redis
+ Core Concepts: Data Structures & Algorithms, OOPS, DBMS, System Design, Microservices, Distributed Systems
+ Tools: Git, GitHub, Docker, VS Code, Postman
+
+Certifications
+
+Palo Alto Networks Certified Network Security Administrator (PCNSA)                     Palo Alto Networks, 2024
+                                                                                     Amazon Web Services, 2025
+AWS Certified Cloud Practitioner  View Certificate
+
+Position of Responsibility
+
+Core Member ­ Vpaksh (KIET Dramatics Society)                                                              2023­Present
+
+Led team coordination across 10+ member performances, winning EPOQUE and Prastuti events (2023).
+Secured 1st Prize in Skit and Nukkad Natak at IIT Jodhpur and IIT Roorkee.
+
+Attracted 300+ viewers per event across 5+ performances; raised over Rs. 20,000 through prize winnings.
+
