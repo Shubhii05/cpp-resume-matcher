@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
+const API_BASE_URL = (process.env.REACT_APP_API_URL || "http://localhost:18080").replace(/\/$/, "");
+
 /* ================= COMPARISON BAR ================= */
 function ComparisonBar({ role, score, index, onClick, isSelected }) {
   const [width, setWidth] = useState(0);
@@ -154,7 +156,7 @@ function AIFeedbackCard({ requestId, role }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:18080/evaluate", {
+      const response = await fetch(`${API_BASE_URL}/evaluate`, {
         method: "POST",
         headers: { "Content-Type": "text/plain" },
         body: JSON.stringify({ request_id: requestId, role: role })
@@ -310,6 +312,21 @@ function AIFeedbackCard({ requestId, role }) {
 
 /* ================= RESULT PANEL ================= */
 function ResultPanel({ result, loading }) {
+  const [selectedRole, setSelectedRole] = useState("");
+
+  useEffect(() => {
+    if (!result?.success) {
+      setSelectedRole("");
+      return;
+    }
+
+    const { best_role, top_roles, comparison } = result.data;
+    const firstRole = Array.isArray(top_roles)
+      ? top_roles[0]?.role
+      : Object.keys(comparison || {})[0];
+    setSelectedRole(best_role || firstRole || "");
+  }, [result]);
+
   const EmptyShell = ({ icon, title, sub }) => (
     <div className="result-panel panel-card">
       <div className="result-topbar">
@@ -346,11 +363,6 @@ function ResultPanel({ result, loading }) {
         missing_skills: missing_skills || [],
       }));
 
-  const [selectedRole, setSelectedRole] = useState(best_role || topRoles[0]?.role || "");
-
-  useEffect(() => {
-    setSelectedRole(best_role || topRoles[0]?.role || "");
-  }, [best_role, result]);
 
   const selectedRoleData =
     topRoles.find((item) => item.role === selectedRole) || {
@@ -448,7 +460,7 @@ function UploadPanel({ onResult, onLoading, loading }) {
     formData.append("resume", file);
 
     try {
-      const response = await fetch("http://localhost:18080/upload", {
+      const response = await fetch(`${API_BASE_URL}/upload`, {
         method: "POST",
         body: formData,
         mode: "cors"
