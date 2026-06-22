@@ -88,24 +88,23 @@ function PanelFooter() {
 
 
 /* ================= ANIMATED LOADING STATE ================= */
+const LOADING_STEPS = [
+  "Reading your resume…",
+  "Extracting skills…",
+  "Matching against roles…",
+  "Computing fit scores…",
+  "Almost done…",
+];
+
 function LoadingState() {
-  const steps = [
-    "Reading your resume…",
-    "Extracting skills…",
-    "Matching against roles…",
-    "Computing fit scores…",
-    "Almost done…",
-  ];
   const [step, setStep] = useState(0);
   const [dots, setDots] = useState("");
 
   useEffect(() => {
-    // Cycle through steps every 2s
     const stepTimer = setInterval(() => {
-      setStep(s => (s + 1) % steps.length);
+      setStep(s => (s + 1) % LOADING_STEPS.length);
     }, 2000);
 
-    // Animate dots
     const dotTimer = setInterval(() => {
       setDots(d => d.length >= 3 ? "" : d + ".");
     }, 400);
@@ -133,7 +132,7 @@ function LoadingState() {
 
         {/* Animated text */}
         <div className="loading-title">Analyzing{dots}</div>
-        <div className="loading-step fade-step" key={step}>{steps[step]}</div>
+        <div className="loading-step fade-step" key={step}>{LOADING_STEPS[step]}</div>
 
         {/* Progress bar */}
         <div className="loading-bar-track">
